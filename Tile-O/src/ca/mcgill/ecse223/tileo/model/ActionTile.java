@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 43 "../../../../../GameEngine.ump"
+// line 39 "../../../../../TileO (updated Feb10).ump"
 public class ActionTile extends Tile
 {
 
@@ -13,48 +13,40 @@ public class ActionTile extends Tile
   //------------------------
 
   //ActionTile Attributes
-  private int coolDownTurns;
-  private int lastVisitedTurn;
+  private int inactivityPeriod;
+  private int turnsUntilActive;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ActionTile(Board aBoard, Location aLocation, int aCoolDownTurns, int aLastVisitedTurn)
+  public ActionTile(int aX, int aY, Game aGame, int aInactivityPeriod)
   {
-    super(aBoard, aLocation);
-    coolDownTurns = aCoolDownTurns;
-    lastVisitedTurn = aLastVisitedTurn;
+    super(aX, aY, aGame);
+    inactivityPeriod = aInactivityPeriod;
+    turnsUntilActive = 0;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setCoolDownTurns(int aCoolDownTurns)
+  public boolean setTurnsUntilActive(int aTurnsUntilActive)
   {
     boolean wasSet = false;
-    coolDownTurns = aCoolDownTurns;
+    turnsUntilActive = aTurnsUntilActive;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setLastVisitedTurn(int aLastVisitedTurn)
+  public int getInactivityPeriod()
   {
-    boolean wasSet = false;
-    lastVisitedTurn = aLastVisitedTurn;
-    wasSet = true;
-    return wasSet;
+    return inactivityPeriod;
   }
 
-  public int getCoolDownTurns()
+  public int getTurnsUntilActive()
   {
-    return coolDownTurns;
-  }
-
-  public int getLastVisitedTurn()
-  {
-    return lastVisitedTurn;
+    return turnsUntilActive;
   }
 
   public void delete()
@@ -67,8 +59,8 @@ public class ActionTile extends Tile
   {
     String outputString = "";
     return super.toString() + "["+
-            "coolDownTurns" + ":" + getCoolDownTurns()+ "," +
-            "lastVisitedTurn" + ":" + getLastVisitedTurn()+ "]"
+            "inactivityPeriod" + ":" + getInactivityPeriod()+ "," +
+            "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]"
      + outputString;
   }
 }

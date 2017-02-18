@@ -1,99 +1,95 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 28 "../../../../../GameEngine.ump"
-public class ActionCard
+// line 62 "../../../../../TileO (updated Feb10).ump"
+public abstract class ActionCard
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //ActionCard State Machines
-  public enum ActionType { extraTurn, addConnection, removeConnection, changeTile, loseTurn }
-  private ActionType actionType;
+  //ActionCard Attributes
+  private String instructions;
 
   //ActionCard Associations
-  private ActionDeck actionDeck;
+  private Deck deck;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ActionCard(ActionDeck aActionDeck)
+  public ActionCard(String aInstructions, Deck aDeck)
   {
-    boolean didAddActionDeck = setActionDeck(aActionDeck);
-    if (!didAddActionDeck)
+    instructions = aInstructions;
+    boolean didAddDeck = setDeck(aDeck);
+    if (!didAddDeck)
     {
-      throw new RuntimeException("Unable to create actionCard due to actionDeck");
+      throw new RuntimeException("Unable to create card due to deck");
     }
-    setActionType(ActionType.extraTurn);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public String getActionTypeFullName()
+  public String getInstructions()
   {
-    String answer = actionType.toString();
-    return answer;
+    return instructions;
   }
 
-  public ActionType getActionType()
+  public Deck getDeck()
   {
-    return actionType;
+    return deck;
   }
 
-  public boolean setActionType(ActionType aActionType)
-  {
-    actionType = aActionType;
-    return true;
-  }
-
-  public ActionDeck getActionDeck()
-  {
-    return actionDeck;
-  }
-
-  public boolean setActionDeck(ActionDeck aActionDeck)
+  public boolean setDeck(Deck aDeck)
   {
     boolean wasSet = false;
-    //Must provide actionDeck to actionCard
-    if (aActionDeck == null)
+    //Must provide deck to card
+    if (aDeck == null)
     {
       return wasSet;
     }
 
-    //actionDeck already at maximum (32)
-    if (aActionDeck.numberOfActionCard() >= ActionDeck.maximumNumberOfActionCard())
+    //deck already at maximum (32)
+    if (aDeck.numberOfCards() >= Deck.maximumNumberOfCards())
     {
       return wasSet;
     }
     
-    ActionDeck existingActionDeck = actionDeck;
-    actionDeck = aActionDeck;
-    if (existingActionDeck != null && !existingActionDeck.equals(aActionDeck))
+    Deck existingDeck = deck;
+    deck = aDeck;
+    if (existingDeck != null && !existingDeck.equals(aDeck))
     {
-      boolean didRemove = existingActionDeck.removeActionCard(this);
+      boolean didRemove = existingDeck.removeCard(this);
       if (!didRemove)
       {
-        actionDeck = existingActionDeck;
+        deck = existingDeck;
         return wasSet;
       }
     }
-    actionDeck.addActionCard(this);
+    deck.addCard(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    ActionDeck placeholderActionDeck = actionDeck;
-    this.actionDeck = null;
-    placeholderActionDeck.removeActionCard(this);
+    Deck placeholderDeck = deck;
+    this.deck = null;
+    placeholderDeck.removeCard(this);
   }
 
+
+  public String toString()
+  {
+    String outputString = "";
+    return super.toString() + "["+
+            "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
+     + outputString;
+  }
 }

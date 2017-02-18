@@ -1,222 +1,202 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 15 "../../../../../GameEngine.ump"
+// line 22 "../../../../../TileO (updated Feb10).ump"
 public class Player
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Player Attributes
-  private boolean skipTurn;
+  private int number;
+  private int turnsUntilActive;
+
+  //Player State Machines
+  public enum Color { RED, BLUE, GREEN, YELLOW }
+  private Color color;
 
   //Player Associations
-  private Tile tile;
-  private List<Session> session;
+  private Tile startingTile;
+  private Tile currentTile;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Player(boolean aSkipTurn, Tile aTile)
+  public Player(int aNumber, Game aGame)
   {
-    skipTurn = aSkipTurn;
-    boolean didAddTile = setTile(aTile);
-    if (!didAddTile)
+    turnsUntilActive = 0;
+    if (!setNumber(aNumber))
     {
-      throw new RuntimeException("Unable to create player due to tile");
+      throw new RuntimeException("Cannot create due to duplicate number");
     }
-    session = new ArrayList<Session>();
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
+    {
+      throw new RuntimeException("Unable to create player due to game");
+    }
+    setColor(Color.RED);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setSkipTurn(boolean aSkipTurn)
+  public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;
-    skipTurn = aSkipTurn;
+    Integer anOldNumber = getNumber();
+    if (hasWithNumber(aNumber)) {
+      return wasSet;
+    }
+    number = aNumber;
+    wasSet = true;
+    if (anOldNumber != null) {
+      playersByNumber.remove(anOldNumber);
+    }
+    playersByNumber.put(aNumber, this);
+    return wasSet;
+  }
+
+  public boolean setTurnsUntilActive(int aTurnsUntilActive)
+  {
+    boolean wasSet = false;
+    turnsUntilActive = aTurnsUntilActive;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean getSkipTurn()
+  public int getNumber()
   {
-    return skipTurn;
-  }
-
-  public Tile getTile()
-  {
-    return tile;
-  }
-
-  public Session getSession(int index)
-  {
-    Session aSession = session.get(index);
-    return aSession;
-  }
-
-  public List<Session> getSession()
-  {
-    List<Session> newSession = Collections.unmodifiableList(session);
-    return newSession;
-  }
-
-  public int numberOfSession()
-  {
-    int number = session.size();
     return number;
   }
 
-  public boolean hasSession()
+  public static Player getWithNumber(int aNumber)
   {
-    boolean has = session.size() > 0;
+    return playersByNumber.get(aNumber);
+  }
+
+  public static boolean hasWithNumber(int aNumber)
+  {
+    return getWithNumber(aNumber) != null;
+  }
+
+  public int getTurnsUntilActive()
+  {
+    return turnsUntilActive;
+  }
+
+  public String getColorFullName()
+  {
+    String answer = color.toString();
+    return answer;
+  }
+
+  public Color getColor()
+  {
+    return color;
+  }
+
+  public boolean setColor(Color aColor)
+  {
+    color = aColor;
+    return true;
+  }
+
+  public Tile getStartingTile()
+  {
+    return startingTile;
+  }
+
+  public boolean hasStartingTile()
+  {
+    boolean has = startingTile != null;
     return has;
   }
 
-  public int indexOfSession(Session aSession)
+  public Tile getCurrentTile()
   {
-    int index = session.indexOf(aSession);
-    return index;
+    return currentTile;
   }
 
-  public boolean setTile(Tile aTile)
+  public boolean hasCurrentTile()
+  {
+    boolean has = currentTile != null;
+    return has;
+  }
+
+  public Game getGame()
+  {
+    return game;
+  }
+
+  public boolean setStartingTile(Tile aNewStartingTile)
   {
     boolean wasSet = false;
-    //Must provide tile to player
-    if (aTile == null)
+    startingTile = aNewStartingTile;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setCurrentTile(Tile aNewCurrentTile)
+  {
+    boolean wasSet = false;
+    currentTile = aNewCurrentTile;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setGame(Game aGame)
+  {
+    boolean wasSet = false;
+    //Must provide game to player
+    if (aGame == null)
     {
       return wasSet;
     }
 
-    //tile already at maximum (4)
-    if (aTile.numberOfPlayers() >= Tile.maximumNumberOfPlayers())
+    //game already at maximum (4)
+    if (aGame.numberOfPlayers() >= Game.maximumNumberOfPlayers())
     {
       return wasSet;
     }
     
-    Tile existingTile = tile;
-    tile = aTile;
-    if (existingTile != null && !existingTile.equals(aTile))
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
     {
-      boolean didRemove = existingTile.removePlayer(this);
+      boolean didRemove = existingGame.removePlayer(this);
       if (!didRemove)
       {
-        tile = existingTile;
+        game = existingGame;
         return wasSet;
       }
     }
-    tile.addPlayer(this);
+    game.addPlayer(this);
     wasSet = true;
     return wasSet;
   }
 
-  public static int minimumNumberOfSession()
-  {
-    return 0;
-  }
-
-  public boolean addSession(Session aSession)
-  {
-    boolean wasAdded = false;
-    if (session.contains(aSession)) { return false; }
-    session.add(aSession);
-    if (aSession.indexOfPlayer(this) != -1)
-    {
-      wasAdded = true;
-    }
-    else
-    {
-      wasAdded = aSession.addPlayer(this);
-      if (!wasAdded)
-      {
-        session.remove(aSession);
-      }
-    }
-    return wasAdded;
-  }
-
-  public boolean removeSession(Session aSession)
-  {
-    boolean wasRemoved = false;
-    if (!session.contains(aSession))
-    {
-      return wasRemoved;
-    }
-
-    int oldIndex = session.indexOf(aSession);
-    session.remove(oldIndex);
-    if (aSession.indexOfPlayer(this) == -1)
-    {
-      wasRemoved = true;
-    }
-    else
-    {
-      wasRemoved = aSession.removePlayer(this);
-      if (!wasRemoved)
-      {
-        session.add(oldIndex,aSession);
-      }
-    }
-    return wasRemoved;
-  }
-
-  public boolean addSessionAt(Session aSession, int index)
-  {  
-    boolean wasAdded = false;
-    if(addSession(aSession))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSession()) { index = numberOfSession() - 1; }
-      session.remove(aSession);
-      session.add(index, aSession);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveSessionAt(Session aSession, int index)
-  {
-    boolean wasAdded = false;
-    if(session.contains(aSession))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfSession()) { index = numberOfSession() - 1; }
-      session.remove(aSession);
-      session.add(index, aSession);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addSessionAt(aSession, index);
-    }
-    return wasAdded;
-  }
-
   public void delete()
   {
-    Tile placeholderTile = tile;
-    this.tile = null;
-    placeholderTile.removePlayer(this);
-    ArrayList<Session> copyOfSession = new ArrayList<Session>(session);
-    session.clear();
-    for(Session aSession : copyOfSession)
-    {
-      if (aSession.numberOfPlayer() <= Session.minimumNumberOfPlayer())
-      {
-        aSession.delete();
-      }
-      else
-      {
-        aSession.removePlayer(this);
-      }
-    }
+    playersByNumber.remove(getNumber());
+    startingTile = null;
+    currentTile = null;
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.removePlayer(this);
   }
 
 
@@ -224,8 +204,11 @@ public class Player
   {
     String outputString = "";
     return super.toString() + "["+
-            "skipTurn" + ":" + getSkipTurn()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "tile = "+(getTile()!=null?Integer.toHexString(System.identityHashCode(getTile())):"null")
+            "number" + ":" + getNumber()+ "," +
+            "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "startingTile = "+(getStartingTile()!=null?Integer.toHexString(System.identityHashCode(getStartingTile())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
 }
