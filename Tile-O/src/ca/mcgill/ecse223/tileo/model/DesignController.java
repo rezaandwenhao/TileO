@@ -10,19 +10,6 @@ public class DesignController {
 	}
 
 	
-//a method to convert location/int x,y to index needed
-  public int aMethodWhichIsSupposedToConvertsLocationIntoIndexButNotTested(int x,int y){
-	  int index=-1;
-	List<Tile> tileList = .getTiles();// getTile
-	for(int i =0;i<tileList.size();i++){
-		Tile atile=tileList.get(i);
-		if (atile.getX()==x &&atile.getY() ==y){
-			index = i;
-			break;
-		}
-	}
-	 return index; 
-  }
 
 
 	 // renamed placeAtile() >> placeTile()
