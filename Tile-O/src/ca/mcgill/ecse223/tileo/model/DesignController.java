@@ -15,7 +15,7 @@ public class DesignController {
 	 // renamed placeAtile() >> placeTile()
 	  public void placeTile (int x , int y)  throws InvalidInputException{
 		  Game theGame = this.game;  //
-		  Tile newTile = new Tile(x,y,theGame);
+		  Tile newTile = new NormalTile(x,y,theGame);
 	  }
 	  
 	  

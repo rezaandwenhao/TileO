@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
 // line 30 "../../../../../TileO (updated Feb10).ump"
-public class Tile
+public abstract class Tile
 {
 
   //------------------------
