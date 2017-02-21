@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
@@ -97,7 +97,7 @@ public class Deck
     return 32;
   }
 
-  public ActionCard addCard(String aInstructions)
+  /*public ActionCard addCard(String aInstructions)
   {
     if (numberOfCards() >= maximumNumberOfCards())
     {
@@ -107,7 +107,7 @@ public class Deck
     {
       return new ActionCard(aInstructions, this);
     }
-  }
+  }*/
 
   public boolean addCard(ActionCard aCard)
   {
@@ -200,6 +200,10 @@ public class Deck
     {
       existingGame.delete();
     }
+  }
+  
+  public void shuffle(){// IMPLEMENTED BY BIJAN
+	  Collections.shuffle(cards);
   }
 
 }

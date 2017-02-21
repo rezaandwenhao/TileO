@@ -1,7 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+
+import java.util.Random;
 
 // line 88 "../../../../../TileO (updated Feb10).ump"
 public class Die
@@ -39,6 +41,12 @@ public class Die
   public Game getGame()
   {
     return game;
+  }
+  
+  public int roll(){ // IMPLEMENTED BY BIJAN
+	  Random rand = new Random();
+	  int rollNumber = rand.nextInt(6)+1;
+	  return rollNumber;
   }
 
   public void delete()

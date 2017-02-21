@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
@@ -91,5 +91,10 @@ public abstract class ActionCard
             "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
      + outputString;
+  }
+  
+  //implemented for each subclass of ActionCard
+  public void play(Object o){//ADDED BY BIJAN
+	  
   }
 }
