@@ -29,8 +29,11 @@ public class DesignController {
 	  
 	  // the method removes all tiles connected to a tile
 	  // requirements ask us to remove connection between 2 tiles
-	  // will modify
+	  // requires modification
 
+	  
+	  
+	  // GameController.java
 	  public void rollDieAgainAction(){
 		  Game theGame = this.game;
 		 for(Player p : theGame.getPlayers()){
