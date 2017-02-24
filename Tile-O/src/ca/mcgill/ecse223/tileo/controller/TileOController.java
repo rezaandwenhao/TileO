@@ -36,8 +36,10 @@ public class TileOController {
 			TileO tileO = new TileO();
 			Game game =  new Game(aCurrentConnectionPieces, tileO);
 			game.setMode(Game.Mode.DESIGN);
+			Player.Color pc[] = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
 			for(int i = 0; i < number; i++){
 				player[i] = new Player(i+1, game);
+				player[i].setColor(pc[i]);
 			}
 		}
 		catch (RuntimeException e) {
