@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
@@ -117,6 +118,120 @@ public class Deck implements Serializable
 
   public boolean addCard(ActionCard aCard)
   {
+=======
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+
+package ca.mcgill.ecse223.tileo.model;
+import java.util.*;
+
+// line 57 "../../../../../TileO (updated Feb10).ump"
+public class Deck
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Deck Associations
+  private List<ActionCard> cards;
+  private ActionCard currentCard;
+  private Game game;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+
+  public Deck(Game aGame)
+  {
+    cards = new ArrayList<ActionCard>();
+    if (aGame == null || aGame.getDeck() != null)
+    {
+      throw new RuntimeException("Unable to create Deck due to aGame");
+    }
+    game = aGame;
+  }
+
+  public Deck(int aCurrentConnectionPiecesForGame, Die aDieForGame, TileO aTileOForGame)
+  {
+    cards = new ArrayList<ActionCard>();
+    game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame, aTileOForGame);
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public ActionCard getCard(int index)
+  {
+    ActionCard aCard = cards.get(index);
+    return aCard;
+  }
+
+  public List<ActionCard> getCards()
+  {
+    List<ActionCard> newCards = Collections.unmodifiableList(cards);
+    return newCards;
+  }
+
+  public int numberOfCards()
+  {
+    int number = cards.size();
+    return number;
+  }
+
+  public boolean hasCards()
+  {
+    boolean has = cards.size() > 0;
+    return has;
+  }
+
+  public int indexOfCard(ActionCard aCard)
+  {
+    int index = cards.indexOf(aCard);
+    return index;
+  }
+
+  public ActionCard getCurrentCard()
+  {
+    return currentCard;
+  }
+
+  public boolean hasCurrentCard()
+  {
+    boolean has = currentCard != null;
+    return has;
+  }
+
+  public Game getGame()
+  {
+    return game;
+  }
+
+  public static int minimumNumberOfCards()
+  {
+    return 0;
+  }
+
+  public static int maximumNumberOfCards()
+  {
+    return 32;
+  }
+
+  /*public ActionCard addCard(String aInstructions)
+  {
+    if (numberOfCards() >= maximumNumberOfCards())
+    {
+      return null;
+    }
+    else
+    {
+      return new ActionCard(aInstructions, this);
+    }
+  }*/
+
+  public boolean addCard(ActionCard aCard)
+  {
     boolean wasAdded = false;
     if (cards.contains(aCard)) { return false; }
     if (numberOfCards() >= maximumNumberOfCards())
@@ -166,6 +281,7 @@ public class Deck implements Serializable
 
   public boolean addOrMoveCardAt(ActionCard aCard, int index)
   {
+>>>>>>> refs/remotes/origin/Bijan
     boolean wasAdded = false;
     if(cards.contains(aCard))
     {
@@ -206,6 +322,10 @@ public class Deck implements Serializable
     {
       existingGame.delete();
     }
+  }
+  
+  public void shuffle(){// IMPLEMENTED BY BIJAN
+	  Collections.shuffle(cards);
   }
 
 }

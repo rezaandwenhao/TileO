@@ -1,9 +1,34 @@
+<<<<<<< HEAD
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
 // line 64 "../../../../../TileO (updated Feb10).ump"
+public abstract class ActionCard
+{
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //ActionCard Attributes
+  private String instructions;
+
+  //ActionCard Associations
+  private Deck deck;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+=======
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+>>>>>>> refs/remotes/origin/Bijan
+
+package ca.mcgill.ecse223.tileo.model;
+
+// line 62 "../../../../../TileO (updated Feb10).ump"
 public abstract class ActionCard
 {
 
@@ -91,5 +116,10 @@ public abstract class ActionCard
             "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
      + outputString;
+  }
+  
+  //implemented for each subclass of ActionCard
+  public void play(Object o){//ADDED BY BIJAN
+	  
   }
 }
