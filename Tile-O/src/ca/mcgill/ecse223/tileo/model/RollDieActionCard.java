@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 68 "../../../../../TileO (updated Feb10).ump"
+// line 70 "../../../../../TileO (updated Feb10).ump"
 public class RollDieActionCard extends ActionCard
 {
 

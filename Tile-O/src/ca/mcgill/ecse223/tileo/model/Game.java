@@ -2,17 +2,23 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 8 "../../../../../TileO (updated Feb10).ump"
-public class Game
+// line 13 "../../../../../DesignPersistence.ump"
+// line 10 "../../../../../TileO (updated Feb10).ump"
+public class Game implements Serializable
 {
 
   //------------------------
   // STATIC VARIABLES
   //------------------------
 
-  public static final int SpareConnectionPieces = 32;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4871491228092496389L;
+public static final int SpareConnectionPieces = 32;
   public static final int NumberOfActionCards = 32;
 
   //------------------------

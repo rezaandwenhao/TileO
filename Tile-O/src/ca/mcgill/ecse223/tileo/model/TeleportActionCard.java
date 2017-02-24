@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 80 "../../../../../TileO (updated Feb10).ump"
+// line 82 "../../../../../TileO (updated Feb10).ump"
 public class TeleportActionCard extends ActionCard
 {
 

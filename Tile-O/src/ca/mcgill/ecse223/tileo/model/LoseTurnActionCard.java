@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 84 "../../../../../TileO (updated Feb10).ump"
+// line 86 "../../../../../TileO (updated Feb10).ump"
 public class LoseTurnActionCard extends ActionCard
 {
 

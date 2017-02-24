@@ -1,0 +1,26 @@
+external interface Serializable{}
+
+class Tile{ 
+ depend java.io.Serializable;
+ isA Serializable;
+ }
+ 
+ class Connection{
+ depend java.io.Serializable;
+ isA Serializable;
+ }
+ 
+class Deck{
+depend java.io.Serializable;
+ isA Serializable;
+ }
+ 
+class Game{
+depend java.io.Serializable;
+ isA Serializable;
+ }
+
+class Player{
+depend java.io.Serializable;
+ isA Serializable;
+ }

@@ -1,4 +1,6 @@
 namespace ca.mcgill.ecse223.tileo.model;
+use DesignPersistence.ump;
+
 
 class TileO {
   1 <@>- * Game games;

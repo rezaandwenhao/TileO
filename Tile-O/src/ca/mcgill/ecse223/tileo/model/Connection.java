@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 54 "../../../../../TileO (updated Feb10).ump"
-public class Connection
+// line 3 "../../../../../DesignPersistence.ump"
+// line 56 "../../../../../TileO (updated Feb10).ump"
+public class Connection implements Serializable
 {
 
   //------------------------

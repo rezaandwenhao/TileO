@@ -2,9 +2,11 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 46 "../../../../../TileO (updated Feb10).ump"
+// line 33 "../../../../../DesignPersistence.ump"
+// line 48 "../../../../../TileO (updated Feb10).ump"
 public class NormalTile extends Tile
 {
 

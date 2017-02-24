@@ -2,17 +2,23 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 57 "../../../../../TileO (updated Feb10).ump"
-public class Deck
+// line 8 "../../../../../DesignPersistence.ump"
+// line 59 "../../../../../TileO (updated Feb10).ump"
+public class Deck implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Deck Associations
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1693774402081599849L;
+//Deck Associations
   private List<ActionCard> cards;
   private ActionCard currentCard;
   private Game game;

@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 30 "../../../../../TileO (updated Feb10).ump"
-public abstract class Tile
+// line 23 "../../../../../DesignPersistence.ump"
+// line 32 "../../../../../TileO (updated Feb10).ump"
+public abstract class Tile implements Serializable
 {
 
   //------------------------

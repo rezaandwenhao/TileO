@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 76 "../../../../../TileO (updated Feb10).ump"
+// line 78 "../../../../../TileO (updated Feb10).ump"
 public class RemoveConnectionActionCard extends ActionCard
 {
 

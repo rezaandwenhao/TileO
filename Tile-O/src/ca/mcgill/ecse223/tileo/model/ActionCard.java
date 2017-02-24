@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 62 "../../../../../TileO (updated Feb10).ump"
+// line 64 "../../../../../TileO (updated Feb10).ump"
 public abstract class ActionCard
 {
 
