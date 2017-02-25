@@ -250,4 +250,15 @@ public class PlayController {
 				throw new InvalidInputException(e.getMessage());
 			}
 	}
+
+	  public void rollDieAgainAction(){
+		  Game theGame = TileOApplication.getCurrentGame();
+		 for(Player p : theGame.getPlayers()){
+			 if( p!= theGame.getCurrentPlayer()){
+				 p.setTurnsUntilActive(p.getTurnsUntilActive()+1);
+			 }
+	  }
+
+
+
 }
