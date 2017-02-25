@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
 
 // line 50 "../../../../../TileO (updated Feb10).ump"
 public class WinTile extends Tile
@@ -24,6 +26,12 @@ public class WinTile extends Tile
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public void land(){
+	  Game currentGame = this.getGame();
+	  this.setHasBeenVisited(true);
+	  currentGame.setMode(Mode.GAME_WON);
+  }
 
   public void delete()
   {
