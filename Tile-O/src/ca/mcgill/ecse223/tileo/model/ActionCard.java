@@ -92,4 +92,10 @@ public abstract class ActionCard
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
      + outputString;
   }
+  
+  //implemented for each subclass of ActionCard
+  public void play(Object o){//ADDED BY BIJAN
+	  
+  }
+  
 }

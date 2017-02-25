@@ -211,4 +211,12 @@ public class Player
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
+  
+//return list of all possible Tiles a player can move to with a given die roll
+	public List<Tile> getPossibleMoves(int rollNumber) { // IMPLEMENTED BY BIJAN
+		List<Tile> finalTiles = currentTile.getNeighbors(rollNumber);
+		return finalTiles;
+	}
+  
+  
 }

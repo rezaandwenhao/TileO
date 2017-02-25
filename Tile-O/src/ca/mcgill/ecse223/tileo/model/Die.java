@@ -50,5 +50,9 @@ public class Die
       existingGame.delete();
     }
   }
-
+  public int roll(){ // IMPLEMENTED BY BIJAN
+	  Random rand = new Random();
+	  int rollNumber = rand.nextInt(6)+1;
+	  return rollNumber;
+  }
 }
