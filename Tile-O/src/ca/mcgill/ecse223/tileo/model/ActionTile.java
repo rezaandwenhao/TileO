@@ -48,6 +48,17 @@ public class ActionTile extends Tile
   {
     return turnsUntilActive;
   }
+  
+  public void land(){
+	  Game currentGame = this.getGame();
+	  Player currentPlayer = currentGame.getCurrentPlayer();
+      currentPlayer.setCurrentTile(this);
+      this.setHasBeenVisited(true);
+      Deck deck = currentGame.getDeck();
+      ActionCard currentCard = deck.getCurrentCard();
+      Mode mode = currentCard.getActionCardGameMode();
+      currentGame.setMode(mode);
+  }
 
   public void delete()
   {
