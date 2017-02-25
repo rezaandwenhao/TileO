@@ -329,5 +329,28 @@ public class DesignController {
 	  }
 	
 	
+	public void setStartTile(Tile startTile, Player player) throws InvalidInputException {
+		Game currentGame = TileOApplication.getGame();
+		String error = "";
+	 if (currentGame.indexOfPlayer(player) < 0 || player==null ) {
+		 error = error + "The current player does not exist in the current game";
+	 }
+	 
+	 if (currentGame.indexOfTile(startTile) <0 || startTile==null) { 
+		 error = error + "The startTile does not exist in the current game";
+	 }
+	 
+	 if (error.length() > 0){
+		 throw new InvalidInputException(error.trim());
+	 }
+	 
+	 try{
+	    player.setStartingTile(startTile);
+		} catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+	}
+	
+	
 	
 }
