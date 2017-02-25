@@ -4,6 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
 // line 39 "../../../../../TileO (updated Feb10).ump"
 public class ActionTile extends Tile
 {
