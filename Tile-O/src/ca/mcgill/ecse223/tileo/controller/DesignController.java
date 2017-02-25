@@ -314,6 +314,19 @@ public class DesignController {
 	}
 
 	
+		  public void placeTile (int x , int y)  throws InvalidInputException{
+		  Game theGame = this.game;  //
+		  Tile newTile = new NormalTile(x,y,theGame);
+		  theGame.addTile(newTile);
+	  }
+	  
+	  
+	  
+
+	  // Code according to sequence diagram
+	  public void deleteConnection(Connection aConnection){
+		 aConnection.delete();
+	  }
 	
 	
 	
