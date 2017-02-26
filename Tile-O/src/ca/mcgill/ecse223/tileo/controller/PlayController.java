@@ -125,6 +125,7 @@ public class PlayController {
 		return tiles;
 	}
 	
+	//Borui Tao
 	public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException{
 		
 		Game currentGame = TileOApplication.getGame();
@@ -182,6 +183,7 @@ public class PlayController {
 		}
 	}
 	
+	//Borui Tao
 	public void land(NormalTile tile) throws InvalidInputException{
 		String error = "";
 		Game currentGame = TileOApplication.getGame();
@@ -198,6 +200,7 @@ public class PlayController {
 		}
 	}
 	
+	//Borui Tao
 	public void land(WinTile tile) throws InvalidInputException{
 		String error = "";
 		Game currentGame = TileOApplication.getGame();
@@ -214,6 +217,7 @@ public class PlayController {
 			}
 	}
 	
+	//Borui Tao
 	public void land(ActionTile tile) throws InvalidInputException{
 		String error = "";
 		Game currentGame = TileOApplication.getGame();
