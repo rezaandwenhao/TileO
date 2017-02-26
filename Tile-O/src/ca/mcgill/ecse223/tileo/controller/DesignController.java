@@ -328,7 +328,7 @@ public class DesignController {
 		 aConnection.delete();
 	  }
 	
-	
+	//Borui Tao
 	public void setStartTile(Tile startTile, Player player) throws InvalidInputException {
 		Game currentGame = TileOApplication.getGame();
 		String error = "";
