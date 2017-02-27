@@ -36,6 +36,7 @@ public class DesignController {
 	public DesignController() {
 	}
 	
+	//Wenhao Geng parts start//
 	public void createDesign(int number) throws InvalidInputException{
 		String error = "";
 		Player player[] = null;
@@ -272,6 +273,7 @@ public class DesignController {
 			throw new InvalidInputException(e.getMessage());
 		}
 	}
+	//Wenhao Geng parts end//
 	
 	
 	
