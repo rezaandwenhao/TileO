@@ -131,36 +131,91 @@ public class DesignModePage extends TileOGamePage {
 		LoseTurnCard.setLocation(80-50, 450+74);
 		panel.add(LoseTurnCard);
 		
-		// ACTION CARDS MINUS BUTTONS
+// ACTION CARDS MINUS BUTTONS
 		
 		ExtraTurnCardMinus = new JButton("-");
 		ExtraTurnCardMinus.setFont(new Font("Arial",Font.PLAIN,15));
 		ExtraTurnCardMinus.setSize(15, 15);
 		ExtraTurnCardMinus.setLocation(230-50, 377+70);
+		ExtraTurnCardMinus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.removeRollDieActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(ExtraTurnCardMinus);
 		
 		AddConnectionCardMinus = new JButton("-");
 		AddConnectionCardMinus.setFont(new Font("Arial",Font.PLAIN,15));
 		AddConnectionCardMinus.setSize(15, 15);
 		AddConnectionCardMinus.setLocation(230-50, 398+70);
+		AddConnectionCardMinus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.removeConnectTilesActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(AddConnectionCardMinus);
 		
 		RemoveConnectionCardMinus = new JButton("-");
 		RemoveConnectionCardMinus.setFont(new Font("Arial",Font.PLAIN,15));
 		RemoveConnectionCardMinus.setSize(15, 15);
 		RemoveConnectionCardMinus.setLocation(230-50, 419+70);
+		RemoveConnectionCardMinus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.removeRemoveConnectionActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(RemoveConnectionCardMinus);
 		
 		MovePlayerCardMinus = new JButton("-");
 		MovePlayerCardMinus.setFont(new Font("Arial",Font.PLAIN,15));
 		MovePlayerCardMinus.setSize(15, 15);
 		MovePlayerCardMinus.setLocation(230-50, 440+70);
+		MovePlayerCardMinus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.removeTeleportActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});	
 		panel.add(MovePlayerCardMinus);
 		
 		LoseTurnCardMinus = new JButton("-");
 		LoseTurnCardMinus.setFont(new Font("Arial",Font.PLAIN,15));
 		LoseTurnCardMinus.setSize(15, 15);
 		LoseTurnCardMinus.setLocation(230-50, 461+70);
+		LoseTurnCardMinus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.removeLoseTurnActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(LoseTurnCardMinus);
 		
 		// ACTION CARDS PLUS BUTTONS
@@ -169,96 +224,86 @@ public class DesignModePage extends TileOGamePage {
 		ExtraTurnCardPlus.setFont(new Font("Arial",Font.PLAIN,15));
 		ExtraTurnCardPlus.setSize(15, 15);
 		ExtraTurnCardPlus.setLocation(270-50, 377+70);
+		ExtraTurnCardPlus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.addRollDieActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(ExtraTurnCardPlus);
 		
 		AddConnectionCardPlus = new JButton("+");
 		AddConnectionCardPlus.setFont(new Font("Arial",Font.PLAIN,15));
 		AddConnectionCardPlus.setSize(15, 15);
 		AddConnectionCardPlus.setLocation(270-50, 398+70);
+		AddConnectionCardPlus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.addConnectTilesActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(AddConnectionCardPlus);
 		
 		RemoveConnectionCardPlus = new JButton("+");
 		RemoveConnectionCardPlus.setFont(new Font("Arial",Font.PLAIN,15));
 		RemoveConnectionCardPlus.setSize(15, 15);
 		RemoveConnectionCardPlus.setLocation(270-50, 419+70);
+		RemoveConnectionCardPlus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.addRemoveConnectionActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(RemoveConnectionCardPlus);
 		
 		MovePlayerCardPlus = new JButton("+");
 		MovePlayerCardPlus.setFont(new Font("Arial",Font.PLAIN,15));
 		MovePlayerCardPlus.setSize(15, 15);
 		MovePlayerCardPlus.setLocation(270-50, 440+70);
+		MovePlayerCardPlus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.addTeleportActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(MovePlayerCardPlus);
 		
 		LoseTurnCardPlus = new JButton("+");
 		LoseTurnCardPlus.setFont(new Font("Arial",Font.PLAIN,15));
 		LoseTurnCardPlus.setSize(15, 15);
 		LoseTurnCardPlus.setLocation(270-50, 461+70);
+		LoseTurnCardPlus.addActionListener(new ActionListener(){
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					control.addLoseTurnActionCard();
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		panel.add(LoseTurnCardPlus);
-		
-		// ACTION CARDS LABELS
-		
-		ExtraTurnCardNumber = new JLabel("7");
-		ExtraTurnCardNumber.setFont(new Font("Arial",Font.PLAIN,15));
-		ExtraTurnCardNumber.setSize(25, 15);
-		ExtraTurnCardNumber.setLocation(252-50, 377+70);
-		panel.add(ExtraTurnCardNumber);
-		
-		AddConnectionCardNumber = new JLabel("7");
-		AddConnectionCardNumber.setFont(new Font("Arial",Font.PLAIN,15));
-		AddConnectionCardNumber.setSize(25, 15);
-		AddConnectionCardNumber.setLocation(252-50, 398+70);
-		panel.add(AddConnectionCardNumber);
-		
-		RemoveConnectionCardNumber = new JLabel("6");
-		RemoveConnectionCardNumber.setFont(new Font("Arial",Font.PLAIN,15));
-		RemoveConnectionCardNumber.setSize(25, 15);
-		RemoveConnectionCardNumber.setLocation(252-50, 419+70);
-		panel.add(RemoveConnectionCardNumber);
-		
-		MovePlayerCardNumber = new JLabel("6");
-		MovePlayerCardNumber.setFont(new Font("Arial",Font.PLAIN,15));
-		MovePlayerCardNumber.setSize(25, 15);
-		MovePlayerCardNumber.setLocation(252-50, 440+70);
-		panel.add(MovePlayerCardNumber);
-		
-		LoseTurnCardNumber = new JLabel("6");
-		LoseTurnCardNumber.setFont(new Font("Arial",Font.PLAIN,15));
-		LoseTurnCardNumber.setSize(25, 15);
-		LoseTurnCardNumber.setLocation(252-50, 461+70);
-		panel.add(LoseTurnCardNumber);
-		
-		// PLAYERS SECTION
-		
-		Players = new JLabel();
-		Players.setText("<html><u>Players</u></html>");
-		Players.setFont(new Font("Arial",Font.BOLD,20));
-		Players.setSize(150, 30);
-		Players.setLocation(325-20, 345+70);
-		panel.add(Players);
-		
-		Player1 = new JButton("Player 1");
-		Player1.setFont(new Font("Arial",Font.PLAIN,15));
-		Player1.setSize(160, 55);
-	    Player1.setLocation(325-20, 375+70);
-		panel.add(Player1);
-		
-		Player2 = new JButton("Player 2");
-		Player2.setFont(new Font("Arial",Font.PLAIN,15));
-		Player2.setSize(160, 55);
-		Player2.setLocation(485-20, 375+70);
-		panel.add(Player2);
-		
-		Player3 = new JButton("Player 3");
-		Player3.setFont(new Font("Arial",Font.PLAIN,15));
-		Player3.setSize(160, 55);
-		Player3.setLocation(325-20, 430+70);
-		panel.add(Player3);
-		
-		Player4 = new JButton("Player 4");
-		Player4.setFont(new Font("Arial",Font.PLAIN,15));
-		Player4.setSize(160, 55);
-		Player4.setLocation(485-20, 430+70);
-		panel.add(Player4);
 		
 		
 		// BOARD MODIFICATION BUTTONS
