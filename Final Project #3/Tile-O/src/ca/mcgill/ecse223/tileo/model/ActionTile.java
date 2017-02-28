@@ -57,9 +57,9 @@ public class ActionTile extends Tile
       this.setHasBeenVisited(true);
       Deck deck = currentGame.getDeck();
       ActionCard currentCard = deck.getCurrentCard();
-    /*  Mode mode = currentCard.getActionCardGameMode();
+      Mode mode = currentCard.getActionCardGameMode();
       currentGame.setMode(mode);
-      */
+      
   }
 
   public void delete()
