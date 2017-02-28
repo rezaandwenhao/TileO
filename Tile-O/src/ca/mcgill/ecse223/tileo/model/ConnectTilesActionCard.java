@@ -14,6 +14,11 @@ public class ConnectTilesActionCard extends ActionCard
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  public Mode getActionCardGameMode()
+  {
+    return Mode.GAME_CONNECTTILESACTIONCARD; 
+  }
 
   public ConnectTilesActionCard(String aInstructions, Deck aDeck)
   {
