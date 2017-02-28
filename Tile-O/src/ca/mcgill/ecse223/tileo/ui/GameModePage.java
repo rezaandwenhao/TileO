@@ -1,9 +1,10 @@
-//Borui Tao
-package ca.mcgill.ecse223.tileo.ui;
+/package ca.mcgill.ecse223.tileo.ui;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -15,11 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
-import ca.mcgill.ecse223.tileo.controller.TileoController;
+import ca.mcgill.ecse223.tileo.controller.PlayController;
 import ca.mcgill.ecse223.tileo.model.ActionCard;
 import ca.mcgill.ecse223.tileo.model.Connection;
 import ca.mcgill.ecse223.tileo.model.Deck;
@@ -58,7 +60,10 @@ public class GameModePage extends JFrame {
 	// data elements
 	private String error = null;
 	private TileOGamePage parent;
-	private TileoController tc;
+	private PlayController pc;
+	
+	private DesignModeResources resource;
+	private UITile uitile[][];
 		
 		
 	public GameModePage() {
@@ -67,9 +72,62 @@ public class GameModePage extends JFrame {
 	}
 	
 	public void initialize(){
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setSize(700,700);
+		resource = new DesignModeResources();
+		
+		uitile = new UITile[18][10];
+		for(int x =0;x<resource.xTiles;x++){
+			for(int y =0;y<resource.yTiles;y++){
+				uitile[x][y] = new UITile(DesignModeResources.Type.Empty,0,0,false);
+			}
+		}
+		
+		UIConnection s = new UIConnection(0,4,false);
+		resource.uiconnect.add(s);
+		Border something = BorderFactory.createLineBorder(Color.BLACK, 10, false);
+		
 		Panel panel = new Panel();
 		panel.setLayout(null);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        panel.addMouseListener(new MouseListener(){
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			//Not reacting to click out the board
+			if(e.getX()> 659 || e.getY() > 386 || e.getX() < 30 || e.getY() < 45) System.out.println("OUT!");
+			if((e.getX()-30)%(resource.block_Size*2) < resource.block_Size && (e.getY()-45)%(resource.block_Size*2) < resource.block_Size) 
+				System.out.printf("Clicked on block %d, %d\n" , (e.getX()-30)/(resource.block_Size*2), (e.getY()-45)/(resource.block_Size*2));
+			System.out.println(e.getX());
+			System.out.println(e.getY());
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	});
 		
 		// elements for error message
 		errorMessage = new JLabel();
@@ -88,7 +146,7 @@ public class GameModePage extends JFrame {
 		playerTurn.setText("<html><u>Player 1's Turn</u></html>");
 		playerTurn.setFont(new Font("Arial",Font.BOLD,20));
 		playerTurn.setSize(150, 30);
-	        playerTurn.setLocation(80-50, 345+70);
+	    playerTurn.setLocation(80-50, 345+70);
 		panel.add(playerTurn);
 		
 		// elements for spare connections:
@@ -169,31 +227,30 @@ public class GameModePage extends JFrame {
 		saveExistButton.setLocation(553,632);
 		panel.add(saveExistButton);
 		
-		add(panel);
 		
 		rollDiceButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				rollDiceButtonActionPerformed(evt);
+		//		rollDiceButtonActionPerformed(evt);
 			}
 		});
 		
 		drawCardButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				drawCardButtonActionPerformed(evt);
+		//		drawCardButtonActionPerformed(evt);
 			}
 		});
 		
 		saveExistButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				saveExistButtonActionPerformed(evt);
+		//		saveExistButtonActionPerformed(evt);
 			}
 		});
+		add(panel);
 	
 	}
 
     public void refreshData(){
     	errorMessage.setText(error);
-    	TileoController tc = new TileoController();
     	if (error == null || error.length() == 0) {
     		Game currentGame = TileOApplication.getCurrentGame();
     		
@@ -234,7 +291,7 @@ public class GameModePage extends JFrame {
 		// TODO Auto-generated method stub
 	}
 	*/
-	private void rollDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	/*private void rollDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		String error = "";
 		String dieNumber = rollDiceNumber.getText();
 		Game currentGame = TileOApplication.getCurrentGame();
@@ -280,8 +337,8 @@ public class GameModePage extends JFrame {
 		
 		if (error.length() == 0){
 		try {
-		        ActionCard currentCard = currentDeck.getCurrentCard();
-		        Mode currentMode = currentCard.getActionCardGameMode();
+			    ActionCard currentCard = currentDeck.getCurrentCard();
+			    Mode currentMode = currentCard.getActionCardGameMode();
 		        currentGame.setMode(currentMode);
 			
 		    if (currentMode.equals(Mode.GAME_ROLLDIEACTIONCARD)){
@@ -300,26 +357,26 @@ public class GameModePage extends JFrame {
 				rollDiceNumber.setText(rollResult.toString());
 				
 				// player chooses a tile and lands on tile (hardcode)
-			         selectedTile = tiles.get(0);
-			         selectedTile.land();
+			    selectedTile = tiles.get(0);
+			    selectedTile.land();
 			    
 		    }
 		    else if(currentMode.equals(Mode.GAME_CONNECTTILESACTIONCARD)){
 		    	connectTilesActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
 		    	
 		    	// player select two tiles (hardcode)
-                        Tile tile1;
-                        Tile tile2;
-                        if (currentGame.getCurrentConnectionPieces() > 0){
-                            tc.playConnectTilesActionCard(tile1, tile2);
-                            currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces()-1);
-                        // two set the spare connections testfield: 
-                            String s = "<html><u>Spare connections: " + currentGame.getCurrentConnectionPieces() + "</u></html>";
-                            numSpareConnection.setText(s);
-                             }
-                         else {
-                	     error+="Cannot add connections because there is no connection piece left!";
-                           }
+                Tile tile1;
+                Tile tile2;
+                if (currentGame.getCurrentConnectionPieces() > 0){
+                tc.playConnectTilesActionCard(tile1, tile2);
+                currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces()-1);
+                // two set the spare connections testfield: 
+                String s = "<html><u>Spare connections: " + currentGame.getCurrentConnectionPieces() + "</u></html>";
+                numSpareConnection.setText(s);
+                }
+                else {
+                	error+="Cannot add connections because there is no connection piece left!";
+                }
 			}
 		    else if(currentMode.equals(Mode.GAME_REMOVECONNECTIONACTIONCARD)){
 		    	removeConnectionActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
@@ -329,14 +386,14 @@ public class GameModePage extends JFrame {
 		    	tc.playRemoveConnectionActionCard(currentConnection);
 			}
 		    
-		    else if(currentMode.equals(Mode.GAME_TELEPORTACTIONCARD)){
+			else if(currentMode.equals(Mode.GAME_TELEPORTACTIONCARD)){
 		    	removeConnectionActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
 		    	
 		    	//player selected a tile and move to that tile
 				Tile tile;
 				tc.playTeleportActionCard(tile);
 			}
-		    else{
+			else{
 		    	loseTurnActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
 
 				tc.loseTurn();
@@ -351,15 +408,14 @@ public class GameModePage extends JFrame {
 	}
 	
 	private void saveExistButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		// this button should work whenever the current player stop the game
 		String error = "";
 		try{
-	 	tc.SaveandExitGame(parent);
+			pc.SaveandExitGame(parent);
 		}catch(Exception e){
 		    error+= e.getMessage();
 		}
 	}
-
+*/
 	class Panel extends JPanel{
 		public Panel() {
 	        setBorder(BorderFactory.createLineBorder(Color.black,10));
