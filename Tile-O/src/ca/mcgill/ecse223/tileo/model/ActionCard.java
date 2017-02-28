@@ -34,6 +34,8 @@ public abstract class ActionCard
   //------------------------
   // INTERFACE
   //------------------------
+  public abstract Mode getActionCardGameMode();
+
 
   public String getInstructions()
   {
