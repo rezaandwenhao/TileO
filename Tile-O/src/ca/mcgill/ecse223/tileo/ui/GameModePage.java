@@ -291,7 +291,7 @@ public class GameModePage extends JFrame {
 		// TODO Auto-generated method stub
 	}
 	*/
-	/*private void rollDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void rollDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		String error = "";
 		String dieNumber = rollDiceNumber.getText();
 		Game currentGame = TileOApplication.getCurrentGame();
@@ -329,7 +329,7 @@ public class GameModePage extends JFrame {
 		
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		Deck currentDeck = currentGame.getDeck();
-		
+		Die currentDie = currentGame.getDie();
 		//if it is not an action card
 
 		if (tileType.getText().equals("Tile Type: Action"))
@@ -415,7 +415,7 @@ public class GameModePage extends JFrame {
 		    error+= e.getMessage();
 		}
 	}
-*/
+
 	class Panel extends JPanel{
 		public Panel() {
 	        setBorder(BorderFactory.createLineBorder(Color.black,10));
