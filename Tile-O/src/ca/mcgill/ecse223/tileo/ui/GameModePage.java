@@ -1,12 +1,10 @@
 //Borui Tao
 package ca.mcgill.ecse223.tileo.ui;
 
-import javax.swing.*;
-import java.awt.*;
-
-import javax.swing.border.Border;
-
-import ca.mcgill.ecse223.tileo.ui.DesignModePage.Panel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -18,21 +16,57 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.TileoController;
+import ca.mcgill.ecse223.tileo.model.ActionCard;
+import ca.mcgill.ecse223.tileo.model.Connection;
+import ca.mcgill.ecse223.tileo.model.Deck;
+import ca.mcgill.ecse223.tileo.model.Die;
+import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.Player;
+import ca.mcgill.ecse223.tileo.model.Tile;
 
+public class GameModePage extends JFrame {
+	private static final long serialVersionUID = -4426310869335015542L;
 
-public class GameModePage extends TileOGamePage {
-	private JLabel Title;
+	// TITLE
+	private JLabel playMode;
+	// UI elements
+    private JLabel errorMessage;
+  //  private JLabel playerTurnLabel;
+	private JLabel playerTurn;
+    // spare connection
+    private JLabel numSpareConnection;
+	// roll a dice
+	private JButton rollDiceButton; 
+ 	private JLabel rollDiceNumber;
+
+	// tile type display
+    private JLabel tileType; 
+    private JLabel connectTilesActionCardDescription;
+    private JLabel loseTurnActionCardDescription;
+    private JLabel removeConnectionActionCardDescription;
+    private JLabel rollDieActionCardDescription;
+    private JLabel teleportActionCardDescription;
+	// draw card 
+	private JButton drawCardButton;
+    // save and load button
+	private JButton saveExistButton;
 	
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-
+	// data elements
+	private String error = null;
+	private TileOGamePage parent;
+	private TileoController tc;
+		
+		
+	public GameModePage() {
+		initialize();
+		refreshData();
 	}
-
-	@Override
-	public void initialize() {
-		// TODO Auto-generated method stub
+	
+	public void initialize(){
 		Panel panel = new Panel();
 		panel.setLayout(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -51,7 +85,7 @@ public class GameModePage extends TileOGamePage {
 		// elements for player's turn label
 		playerTurn = new JLabel();
 		playerTurn.setForeground(Color.RED);
-		playerTurn.setText("<html><u>Action Cards</u></html>");
+		playerTurn.setText("<html><u>Player 1's Turn</u></html>");
 		playerTurn.setFont(new Font("Arial",Font.BOLD,20));
 		playerTurn.setSize(150, 30);
 	        playerTurn.setLocation(80-50, 345+70);
@@ -59,7 +93,7 @@ public class GameModePage extends TileOGamePage {
 		
 		// elements for spare connections:
 		numSpareConnection = new JLabel();
-		numSpareConnection.setText("<html><u>Players</u></html>");
+		numSpareConnection.setText("<html><u>Spare connections: 32</u></html>");
 		numSpareConnection.setFont(new Font("Arial",Font.BOLD,20));
 		numSpareConnection.setSize(150, 30);
 		numSpareConnection.setLocation(325-20, 345+70);
@@ -80,7 +114,11 @@ public class GameModePage extends TileOGamePage {
 		panel.add(rollDiceNumber);
 		
 		// elements for card type display
-		tileType = new JLabel();
+		tileType = new JLabel("Tile Type: ");
+		tileType.setFont(new Font("Arial",Font.BOLD,20));
+		tileType.setSize(150, 30);
+		tileType.setLocation(70-50, 370+80);
+	    panel.add(tileType);
 		
 		// elements for connectTiles ActionCard: 
 		connectTilesActionCardDescription = new JLabel("Extra Turn: Roll another Dice", SwingConstants.LEFT);
@@ -132,15 +170,194 @@ public class GameModePage extends TileOGamePage {
 		panel.add(saveExistButton);
 		
 		add(panel);
-	}
+		
+		rollDiceButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				rollDiceButtonActionPerformed(evt);
+			}
+		});
+		
+		drawCardButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				drawCardButtonActionPerformed(evt);
+			}
+		});
+		
+		saveExistButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				saveExistButtonActionPerformed(evt);
+			}
+		});
 	
+	}
+
+    public void refreshData(){
+    	errorMessage.setText(error);
+    	TileoController tc = new TileoController();
+    	if (error == null || error.length() == 0) {
+    		Game currentGame = TileOApplication.getCurrentGame();
+    		
+    		Player currentPlayer = currentGame.getCurrentPlayer();
+    		if (currentGame.indexOfPlayer(currentPlayer) != currentGame.numberOfPlayers()-1) {
+    		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+    		   int playerPosition = currentGame.indexOfPlayer(currentPlayer)+1;
+    		   String s = "<html><u>Player" + playerPosition + "'s Turn</u></html>";
+    		   playerTurn.setText(s);
+    		}
+    		else {
+    			playerTurn.setText("<html><u>Player 1's Turn</u></html>");
+    		}
+    		
+    		
+    		int numConnectionPieces = currentGame.getCurrentConnectionPieces();
+    		if (numConnectionPieces > 0) {
+    			String s = "<html><u>Spare connections:" + numConnectionPieces + "</u></html>";
+    			numSpareConnection.setText(s);
+    		}
+    		else{
+    			numSpareConnection.setText("<html><u>Spare connections:0</u></html>");
+    		}
+    		
+    		rollDiceNumber.setText("0");
+    		tileType.setText("Tile Type:");
+    		connectTilesActionCardDescription.setFont(new Font("Arial",Font.PLAIN,15));
+    		loseTurnActionCardDescription.setFont(new Font("Arial",Font.PLAIN,15));
+    		removeConnectionActionCardDescription.setFont(new Font("Arial",Font.PLAIN,15));
+    		rollDieActionCardDescription.setFont(new Font("Arial",Font.PLAIN,15));
+    		teleportActionCardDescription.setFont(new Font("Arial",Font.PLAIN,15));
+
+    	}
+    	
+    }
+    
+	/*public void initialize() {
+		// TODO Auto-generated method stub
+	}
+	*/
 	private void rollDiceButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		String error = "";
+		String dieNumber = rollDiceNumber.getText();
+		Game currentGame = TileOApplication.getCurrentGame();
+		Integer rollResult = 0;
+		Tile selectedTile = null;
+		
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		Die currentDie = currentGame.getDie();
+		
+		if(!dieNumber.equals("0")){
+			error += "You have already rolled a die";
+		}
+		
+		if(error.length() == 0){
+		    try {
+			// player roll a die
+			rollResult = currentDie.roll();
+			List<Tile> tiles = currentPlayer.getPossibleMoves(rollResult);
+			rollDiceNumber.setText(rollResult.toString());
+			
+			// player land on tile
+		    selectedTile = tiles.get(0);
+		    selectedTile.land();
+		    }catch(Exception e){
+		    	error+=e.getMessage();
+		    }
+			
+		}
+		refreshData();
 	}
 	
 	private void drawCardButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		String error = "";
+		Game currentGame = TileOApplication.getCurrentGame();
+		
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		Deck currentDeck = currentGame.getDeck();
+		
+		//if it is not an action card
+
+		if (tileType.getText().equals("Tile Type: Action"))
+			error+="You are not on an action tile, cannot draw a card";
+		
+		if (error.length() == 0){
+		try {
+		        ActionCard currentCard = currentDeck.getCurrentCard();
+		        Mode currentMode = currentCard.getActionCardGameMode();
+		        currentGame.setMode(currentMode);
+			
+		    if (currentMode.equals(Mode.GAME_ROLLDIEACTIONCARD)){
+		    	
+		    	rollDiceNumber.setText("0");
+		    	//Extra Turn becomes bold
+		    	rollDieActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
+		    	
+		    	//player roll a dice again and move to a new tile
+		    	
+				Integer rollResult = 0;
+				Tile selectedTile = null;
+				
+				rollResult = currentDie.roll();
+				List<Tile> tiles = currentPlayer.getPossibleMoves(rollResult);
+				rollDiceNumber.setText(rollResult.toString());
+				
+				// player chooses a tile and lands on tile (hardcode)
+			         selectedTile = tiles.get(0);
+			         selectedTile.land();
+			    
+		    }
+		    else if(currentMode.equals(Mode.GAME_CONNECTTILESACTIONCARD)){
+		    	connectTilesActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
+		    	
+		    	// player select two tiles (hardcode)
+                        Tile tile1;
+                        Tile tile2;
+                        if (currentGame.getCurrentConnectionPieces() > 0){
+                            tc.playConnectTilesActionCard(tile1, tile2);
+                            currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces()-1);
+                        // two set the spare connections testfield: 
+                            String s = "<html><u>Spare connections: " + currentGame.getCurrentConnectionPieces() + "</u></html>";
+                            numSpareConnection.setText(s);
+                             }
+                         else {
+                	     error+="Cannot add connections because there is no connection piece left!";
+                           }
+			}
+		    else if(currentMode.equals(Mode.GAME_REMOVECONNECTIONACTIONCARD)){
+		    	removeConnectionActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
+		    	
+		        //player selected a connection to be deleted. (hardcode)
+		    	Connection currentConnection;
+		    	tc.playRemoveConnectionActionCard(currentConnection);
+			}
+		    
+		    else if(currentMode.equals(Mode.GAME_TELEPORTACTIONCARD)){
+		    	removeConnectionActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
+		    	
+		    	//player selected a tile and move to that tile
+				Tile tile;
+				tc.playTeleportActionCard(tile);
+			}
+		    else{
+		    	loseTurnActionCardDescription.setFont(new Font("Arial",Font.BOLD,15));
+
+				tc.loseTurn();
+			}
+			
+		}catch(Exception e){
+		    error+= e.getMessage();
+		    throw new InvalidInputException(error.trim());
+		}
+		}
+	   refreshData();
 	}
 	
 	private void saveExistButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// this button should work whenever the current player stop the game
+		String error = "";
+		try{
+	 	tc.SaveandExitGame(parent);
+		}catch(Exception e){
+		    error+= e.getMessage();
+		}
 	}
 
 	class Panel extends JPanel{
@@ -153,13 +370,30 @@ public class GameModePage extends TileOGamePage {
 	    }*/
 
 	    public void paintComponent(Graphics g) {
-	        super.paintComponent(g);       
-	        for(int x = 0; x <= 19; x++){
-	        	for(int y = 0; y <= 10; y++){
+	        super.paintComponent(g);  
+	        
+	        // DRAWING THE TILES
+	        for(int x = 0; x < 20; x++){
+	        	for(int y = 0; y < 10; y++){
 	        		g.setColor(Color.LIGHT_GRAY);
-	        		g.fillRect(20 + 33*x, 40 + 33*y, 20, 20);
+	        		g.fillRect(20 + 33*x, 50 + 33*y, 20, 20);
+	        		g.setColor(Color.RED);
+	        		g.fillOval(20 + 33*x, 50 + 33*y, 20, 20);
 	        	}
 			}
-	    }  
-	}
+	        
+	        g.setColor(Color.BLACK);
+	        
+	        // OUTLINE FOR SAVE SECTION
+	        g.drawRect(553,598, 140, 80);
+	        g.drawRect(554,599, 140, 80);
+	        g.drawRect(555,600, 140, 80);
+	        
+	        // LINE IN MIDDLE
+	        g.fillRect(0, 390, 700, 10);
+	        
+	        // PLAYER TEST
+	        
+	   }
+    }
 }
