@@ -41,6 +41,7 @@ public abstract class Tile
   //------------------------
   // INTERFACE
   //------------------------
+  public abstract void land();
 
   public boolean setX(int aX)
   {
