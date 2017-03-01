@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
@@ -8,215 +8,238 @@ import java.util.*;
 public class Player
 {
 
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
+	//------------------------
+	// STATIC VARIABLES
+	//------------------------
 
-  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
+	private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	//------------------------
+	// MEMBER VARIABLES
+	//------------------------
 
-  //Player Attributes
-  private int number;
-  private int turnsUntilActive;
+	//Player Attributes
+	private int number;
+	private int turnsUntilActive;
 
-  //Player State Machines
-  public enum Color { RED, BLUE, GREEN, YELLOW }
-  private Color color;
+	//Player State Machines
+	public enum Color { RED, BLUE, GREEN, YELLOW }
+	private Color color;
 
-  //Player Associations
-  private Tile startingTile;
-  private Tile currentTile;
-  private Game game;
+	//Player Associations
+	private Tile startingTile;
+	private Tile currentTile;
+	private Game game;
+	
+	//ADDITIONAL ATTRIBUTES, ADDED BY BIJAN
+	private List<Tile> finalTiles = new ArrayList<Tile>();
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	//------------------------
+	// CONSTRUCTOR
+	//------------------------
 
-  public Player(int aNumber, Game aGame)
-  {
-    turnsUntilActive = 0;
-    if (!setNumber(aNumber))
-    {
-      throw new RuntimeException("Cannot create due to duplicate number");
-    }
-    boolean didAddGame = setGame(aGame);
-    if (!didAddGame)
-    {
-      throw new RuntimeException("Unable to create player due to game");
-    }
-    setColor(Color.RED);
-  }
+	public Player(int aNumber, Game aGame)
+	{
+		turnsUntilActive = 0;
+		if (!setNumber(aNumber))
+		{
+			throw new RuntimeException("Cannot create due to duplicate number");
+		}
+		boolean didAddGame = setGame(aGame);
+		if (!didAddGame)
+		{
+			throw new RuntimeException("Unable to create player due to game");
+		}
+		setColor(Color.RED);
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	//------------------------
+	// INTERFACE
+	//------------------------
 
-  public boolean setNumber(int aNumber)
-  {
-    boolean wasSet = false;
-    Integer anOldNumber = getNumber();
-    if (hasWithNumber(aNumber)) {
-      return wasSet;
-    }
-    number = aNumber;
-    wasSet = true;
-    if (anOldNumber != null) {
-      playersByNumber.remove(anOldNumber);
-    }
-    playersByNumber.put(aNumber, this);
-    return wasSet;
-  }
+	public boolean setNumber(int aNumber)
+	{
+		boolean wasSet = false;
+		Integer anOldNumber = getNumber();
+		if (hasWithNumber(aNumber)) {
+			return wasSet;
+		}
+		number = aNumber;
+		wasSet = true;
+		if (anOldNumber != null) {
+			playersByNumber.remove(anOldNumber);
+		}
+		playersByNumber.put(aNumber, this);
+		return wasSet;
+	}
 
-  public boolean setTurnsUntilActive(int aTurnsUntilActive)
-  {
-    boolean wasSet = false;
-    turnsUntilActive = aTurnsUntilActive;
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setTurnsUntilActive(int aTurnsUntilActive)
+	{
+		boolean wasSet = false;
+		turnsUntilActive = aTurnsUntilActive;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public int getNumber()
-  {
-    return number;
-  }
+	public int getNumber()
+	{
+		return number;
+	}
 
-  public static Player getWithNumber(int aNumber)
-  {
-    return playersByNumber.get(aNumber);
-  }
+	public static Player getWithNumber(int aNumber)
+	{
+		return playersByNumber.get(aNumber);
+	}
 
-  public static boolean hasWithNumber(int aNumber)
-  {
-    return getWithNumber(aNumber) != null;
-  }
+	public static boolean hasWithNumber(int aNumber)
+	{
+		return getWithNumber(aNumber) != null;
+	}
 
-  public int getTurnsUntilActive()
-  {
-    return turnsUntilActive;
-  }
+	public int getTurnsUntilActive()
+	{
+		return turnsUntilActive;
+	}
 
-  public String getColorFullName()
-  {
-    String answer = color.toString();
-    return answer;
-  }
+	public String getColorFullName()
+	{
+		String answer = color.toString();
+		return answer;
+	}
 
-  public Color getColor()
-  {
-    return color;
-  }
+	public Color getColor()
+	{
+		return color;
+	}
 
-  public boolean setColor(Color aColor)
-  {
-    color = aColor;
-    return true;
-  }
+	public boolean setColor(Color aColor)
+	{
+		color = aColor;
+		return true;
+	}
 
-  public Tile getStartingTile()
-  {
-    return startingTile;
-  }
+	public Tile getStartingTile()
+	{
+		return startingTile;
+	}
 
-  public boolean hasStartingTile()
-  {
-    boolean has = startingTile != null;
-    return has;
-  }
+	public boolean hasStartingTile()
+	{
+		boolean has = startingTile != null;
+		return has;
+	}
 
-  public Tile getCurrentTile()
-  {
-    return currentTile;
-  }
+	public Tile getCurrentTile()
+	{
+		return currentTile;
+	}
 
-  public boolean hasCurrentTile()
-  {
-    boolean has = currentTile != null;
-    return has;
-  }
+	public boolean hasCurrentTile()
+	{
+		boolean has = currentTile != null;
+		return has;
+	}
 
-  public Game getGame()
-  {
-    return game;
-  }
+	public Game getGame()
+	{
+		return game;
+	}
 
-  public boolean setStartingTile(Tile aNewStartingTile)
-  {
-    boolean wasSet = false;
-    startingTile = aNewStartingTile;
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setStartingTile(Tile aNewStartingTile)
+	{
+		boolean wasSet = false;
+		startingTile = aNewStartingTile;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public boolean setCurrentTile(Tile aNewCurrentTile)
-  {
-    boolean wasSet = false;
-    currentTile = aNewCurrentTile;
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setCurrentTile(Tile aNewCurrentTile)
+	{
+		boolean wasSet = false;
+		currentTile = aNewCurrentTile;
+		wasSet = true;
+		return wasSet;
+	}
 
-  public boolean setGame(Game aGame)
-  {
-    boolean wasSet = false;
-    //Must provide game to player
-    if (aGame == null)
-    {
-      return wasSet;
-    }
+	public boolean setGame(Game aGame)
+	{
+		boolean wasSet = false;
+		//Must provide game to player
+		if (aGame == null)
+		{
+			return wasSet;
+		}
 
-    //game already at maximum (4)
-    if (aGame.numberOfPlayers() >= Game.maximumNumberOfPlayers())
-    {
-      return wasSet;
-    }
-    
-    Game existingGame = game;
-    game = aGame;
-    if (existingGame != null && !existingGame.equals(aGame))
-    {
-      boolean didRemove = existingGame.removePlayer(this);
-      if (!didRemove)
-      {
-        game = existingGame;
-        return wasSet;
-      }
-    }
-    game.addPlayer(this);
-    wasSet = true;
-    return wasSet;
-  }
+		//game already at maximum (4)
+		if (aGame.numberOfPlayers() >= Game.maximumNumberOfPlayers())
+		{
+			return wasSet;
+		}
 
-  public void delete()
-  {
-    playersByNumber.remove(getNumber());
-    startingTile = null;
-    currentTile = null;
-    Game placeholderGame = game;
-    this.game = null;
-    placeholderGame.removePlayer(this);
-  }
+		Game existingGame = game;
+		game = aGame;
+		if (existingGame != null && !existingGame.equals(aGame))
+		{
+			boolean didRemove = existingGame.removePlayer(this);
+			if (!didRemove)
+			{
+				game = existingGame;
+				return wasSet;
+			}
+		}
+		game.addPlayer(this);
+		wasSet = true;
+		return wasSet;
+	}
 
-
-  public String toString()
-  {
-    String outputString = "";
-    return super.toString() + "["+
-            "number" + ":" + getNumber()+ "," +
-            "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "startingTile = "+(getStartingTile()!=null?Integer.toHexString(System.identityHashCode(getStartingTile())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
-     + outputString;
-  }
-  
-//return list of all possible Tiles a player can move to with a given die roll
-	public List<Tile> getPossibleMoves(int rollNumber) { // IMPLEMENTED BY BIJAN
-		List<Tile> finalTiles = currentTile.getNeighbors(rollNumber);
+	// IMPLEMENTED BY BIJAN
+	//return list of all possible Tiles a player can move to with a given die roll
+	public List<Tile> getPossibleMoves(Tile currentTile, Tile previousTile, int rollNumber) { 
+		
+		// BASE CASE (ONE TILE MOVE)
+		if(rollNumber==1){
+			for(Tile neighbor : currentTile.getNeighbors()){
+				finalTiles.add(neighbor);
+			}
+		}
+		
+		// RECURSIVE STEP
+		else{
+			for(Tile neighbor : currentTile.getNeighbors()){
+				if(neighbor != previousTile)
+					getPossibleMoves(neighbor, currentTile, rollNumber - 1);
+			}
+		}
+		
 		return finalTiles;
 	}
-  
-  
+	
+	
+	public void resetFinalTiles(){
+		finalTiles.clear();
+	}
+	
+	public void delete()
+	{
+		playersByNumber.remove(getNumber());
+		startingTile = null;
+		currentTile = null;
+		Game placeholderGame = game;
+		this.game = null;
+		placeholderGame.removePlayer(this);
+	}
+
+
+	public String toString()
+	{
+		String outputString = "";
+		return super.toString() + "["+
+		"number" + ":" + getNumber()+ "," +
+		"turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
+		"  " + "startingTile = "+(getStartingTile()!=null?Integer.toHexString(System.identityHashCode(getStartingTile())):"null") + System.getProperties().getProperty("line.separator") +
+		"  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
+		"  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
+		+ outputString;
+	}
+
 }
