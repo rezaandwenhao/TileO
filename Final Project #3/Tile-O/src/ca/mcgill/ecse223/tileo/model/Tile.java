@@ -265,38 +265,20 @@ public abstract class Tile
      + outputString;
   }
   
-	//gets the tiles a *number* of tiles away from this Tile
-	public List<Tile> getNeighbors(int number){ // IMPLEMENTED BY BIJAN
-
-		//BASE CASE, IF WE HAVE REACHED THE "END OF THE ROLL", ADD THOSE ADJACENT TILES TO NEIGHBORS
-		if(number==1){
-			for(Connection connection : connections){
-				List<Tile> connectedTiles = connection.getTiles();
-
-				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
-				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
-					neighbors.add(connectedTiles.get(0));
-				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
-					neighbors.add(connectedTiles.get(1));
-				}
-			}
+	// gets the neighboring tiles
+	public List<Tile> getNeighbors(){ // IMPLEMENTED BY BIJAN
+		
+		List<Tile> neighbors = new ArrayList<Tile>();
+		
+		for(Connection connection : this.getConnections()){
+			if(connection.getTile(0)!=this)
+				neighbors.add(connection.getTile(0));
+			else
+				neighbors.add(connection.getTile(1));
 		}
-
-		//RECURSIVE SECTION
-		else{
-			//look through all of Tile's connections. For each connection, identify the "other" tile, and add that tile to neighbors.
-			for(Connection connection : connections){
-				List<Tile> connectedTiles = connection.getTiles();
-
-				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
-				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
-					connectedTiles.get(0).getNeighbors(number-1);
-				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
-					connectedTiles.get(1).getNeighbors(number-1);
-				}
-			}
-		}
-
+		
 		return neighbors;
+		
 	}
+
 }
