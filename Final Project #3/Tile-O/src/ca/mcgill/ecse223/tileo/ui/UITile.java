@@ -6,20 +6,52 @@ import java.util.HashMap;
 
 public class UITile {
 	
-	DesignModeResources.Type type;
+	private DesignModeResources.Type type;
 	
 	//Only used for action
-	int cooldown;
+	private int cooldown;
 	
-	boolean Visited;
+	private boolean Visited;
 	//0 means no player visited. The number correspond to what player is visiting it.
-	int currentPlayer;
+	private int currentPlayer;
 	
 	public UITile(DesignModeResources.Type t, int player, int c, boolean visited){
-		type = t;
-		currentPlayer = player;
-		cooldown = c;
+		setType(t);
+		setCurrentPlayer(player);
+		setCooldown(c);
+		setVisited(visited);
+	}
+
+	public boolean isVisited() {
+		return Visited;
+	}
+
+	public void setVisited(boolean visited) {
 		Visited = visited;
+	}
+
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	public int getCooldown() {
+		return cooldown;
+	}
+
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
+	}
+
+	public DesignModeResources.Type getType() {
+		return type;
+	}
+
+	public void setType(DesignModeResources.Type type) {
+		this.type = type;
 	}
 	
 	

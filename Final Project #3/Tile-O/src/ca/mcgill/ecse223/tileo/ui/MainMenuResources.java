@@ -6,9 +6,9 @@ import java.awt.Font;
  * This class stores any data used for display, mostly Font and Text
  */
 public class MainMenuResources {
-	Font ButtonFont = new Font("Arial",Font.BOLD,32);
-	Font ModeFont = new Font("Arial",Font.BOLD,48);
-	Font TitleFont = new Font("Arial",Font.ITALIC,108);
+	final Font ButtonFont = new Font("Arial",Font.BOLD,32);
+	final Font ModeFont = new Font("Arial",Font.BOLD,48);
+	final Font TitleFont = new Font("Arial",Font.ITALIC,108);
 	
 	String Title = "Tile_O";
 	String DesignMode = "<html><u>Design Mode</u></html>";

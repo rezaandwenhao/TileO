@@ -143,7 +143,7 @@ public class MainMenuPage extends TileOGamePage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//pc.loadDesign(this_page);
+				dc.loadDesign(this_page);
 			}
 			
 		});
