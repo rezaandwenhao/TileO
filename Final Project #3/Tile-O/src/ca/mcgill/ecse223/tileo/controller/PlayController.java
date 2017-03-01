@@ -109,20 +109,29 @@ public class PlayController {
 			game.setMode(Mode.GAME);
 		}
 	}
-	public List<Tile> rollDie(){ // PLAY 2: IMPLEMENTED BY BIJAN [made changes to Die, Player, & Tile]
-		Game game = TileOApplication.getCurrentGame();
+	
+	// PLAY 2: IMPLEMENTED BY BIJAN [made changes to Die, Player, & Tile]
+	public static List<Tile> rollDie(Game game){
+		//Game game = TileOApplication.getCurrentGame();
 		Die die = game.getDie();
 
 		//roll the die
 		int rollNumber = die.roll();
 
+		//the current player
 		Player currentPlayer = game.getCurrentPlayer();
-
+		
+		//the current player's tile
+		Tile currentTile = currentPlayer.getCurrentTile();
+		
 		//stores all the tiles that the Player can move to with the die roll
-		List<Tile> tiles = currentPlayer.getPossibleMoves(rollNumber);
+		List<Tile> finalTiles = currentPlayer.getPossibleMoves(currentTile, null, rollNumber);
+		
+		//resets the finalTiles attribute in Player for the next time he plays
+		currentPlayer.resetFinalTiles();
 
 		//returns the tiles that the Player can move to
-		return tiles;
+		return finalTiles;
 	}
 	
 	//Borui Tao
