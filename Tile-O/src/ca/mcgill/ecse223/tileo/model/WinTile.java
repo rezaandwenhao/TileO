@@ -35,6 +35,7 @@ public class WinTile extends Tile
 
   public void delete()
   {
+	getGame().setWinTile(null);
     super.delete();
   }
 
