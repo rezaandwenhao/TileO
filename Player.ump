@@ -1,0 +1,17 @@
+class Player{
+  PlayerSM{
+    
+    IsTurn{
+         endTurn  ->  WaitingForTurn;
+         loseTurn -> TurnLost;
+    }
+  
+    WaitingForTurn{
+         startTurn -> IsTurn;
+    }
+  
+    TurnLost{
+          endTurn -> WaitingForTurn;
+    }
+  }
+}
