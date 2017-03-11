@@ -60,7 +60,7 @@ class PlayController {
         }
         
         ActionCardDrawn {
-changeGameMode() [getDrawnActionCard() == ConnectTilesActionCard] -> / {
+            changeGameMode() [getDrawnActionCard() == ConnectTilesActionCard] -> / {
 	         	 game.mode = GAME_ADDCONNECTIONACTIONCARD;
 	          } ConnectTilesActionCardDrawn;
 	          
@@ -74,7 +74,7 @@ changeGameMode() [getDrawnActionCard() == ConnectTilesActionCard] -> / {
              
      		  changeGameMode() [getDrawnActionCard() == RollDieActionCard] -> / {
 				game.mode = GAME_ROLLDIEACTIONCARD;
-             } RollDieActionCardDrawn;
+             } RollDieActionCardDrawn;t
              
        		 changeGameMode() [getDrawnActionCard() == TeleportActionCard] -> / {
        		 	game.mode = GAME_TELEPORTACTIONCARD;
@@ -117,7 +117,12 @@ changeGameMode() [getDrawnActionCard() == ConnectTilesActionCard] -> / {
            }
          
          PlayerFinishedTurn{
-            
+         	entry/{
+         	game.currentPlayer().endTurn();
+         	for(Player p:game.getPlayers()){
+         		p.decreaseTurn();
+         	}
+         	};
          }
       }
    }
