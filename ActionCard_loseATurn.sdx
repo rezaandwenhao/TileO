@@ -6,7 +6,7 @@ a:Appplication[a]
 game:Game
 currentPlayer:Player
 
-u: =c.playLoseActionCard();
+u: =c.playLoseTurnActionCard();
 c: =a.game=getGame()
 c: =game.currentPlayer = game:getCurrentPlayer()
 c: =game.numberOfPlayers = game:numberOfPlayers()
