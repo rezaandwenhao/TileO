@@ -2,16 +2,17 @@ class Player{
   PlayerSM{
     
     IsTurn{
-         endTurn  ->  WaitingForTurn;
-         loseTurn -> TurnLost;
+         endTurn() / {
+         	turnsUntilActive+=game.numberOfPlayers();
+         } -> IsNotTurn;
     }
   
-    WaitingForTurn{
-         startTurn -> IsTurn;
+    IsNotTurn{
+         startTurn() [turnsUntilActive==0] / {} -> IsTurn;
+         decreaseTurn() [turnsUntilActive>0] / {
+         	turnsUntilActive := turnsUntilActive - 1;
+         } -> IsNotTurn;
     }
-  
-    TurnLost{
-          endTurn -> WaitingForTurn;
-    }
+
   }
 }
