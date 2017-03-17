@@ -1,9 +1,6 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
-
-import java.util.*;
-
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.ActionTile.ActionTileStatus;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
@@ -17,6 +14,7 @@ import ca.mcgill.ecse223.tileo.application.*;
 import ca.mcgill.ecse223.tileo.ui.*;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import java.util.*;
 
 // line 3 "PlayControllerSM.ump"
 public class PlayController
@@ -31,8 +29,8 @@ public class PlayController
   private int standardDistance;
 
   //PlayController State Machines
-  public enum Mode { Ready, Roll, Move, ActionCard, Won }
-  private Mode mode;
+  public enum PlayMode { Ready, Roll, Move, ActionCard, Won }
+  private PlayMode playMode;
 
   //PlayController Associations
   private List<Tile> possibleMoves;
@@ -46,7 +44,7 @@ public class PlayController
     rollNumber = 0;
     standardDistance = 1;
     possibleMoves = new ArrayList<Tile>();
-    setMode(Mode.Ready);
+    setPlayMode(PlayMode.Ready);
   }
 
   //------------------------
@@ -79,28 +77,33 @@ public class PlayController
     return standardDistance;
   }
 
-  public String getModeFullName()
+  public String getPlayModeFullName()
   {
-    String answer = mode.toString();
+    String answer = playMode.toString();
     return answer;
   }
 
-  public Mode getMode()
+  public PlayMode getPlayMode()
   {
-    return mode;
+    return playMode;
   }
 
   public boolean startGame()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case Ready:
         // line 6 "PlayControllerSM.ump"
-        Start();
-        setMode(Mode.Roll);
+        try {
+			Start();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        setPlayMode(PlayMode.Roll);
         wasEventProcessed = true;
         break;
       default:
@@ -114,15 +117,15 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case Ready:
         if (isInGameMode())
         {
         // line 9 "PlayControllerSM.ump"
           LoadGame(parent);
-          setMode(Mode.Roll);
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
@@ -130,7 +133,7 @@ public class PlayController
         {
         // line 12 "PlayControllerSM.ump"
           LoadGame(parent);
-          setMode(Mode.Won);
+          setPlayMode(PlayMode.Won);
           wasEventProcessed = true;
           break;
         }
@@ -138,7 +141,7 @@ public class PlayController
         {
         // line 15 "PlayControllerSM.ump"
           LoadGame(parent);
-          setMode(Mode.ActionCard);
+          setPlayMode(PlayMode.ActionCard);
           wasEventProcessed = true;
           break;
         }
@@ -154,13 +157,13 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case Roll:
         // line 20 "PlayControllerSM.ump"
         possibleMoves = getFinalTiles(rollDie());
-        setMode(Mode.Move);
+        setPlayMode(PlayMode.Move);
         wasEventProcessed = true;
         break;
       default:
@@ -174,31 +177,46 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case Move:
         if (isNormalTile(tile))
         {
         // line 25 "PlayControllerSM.ump"
-          land(tile);
-          setMode(Mode.Roll);
+          try {
+			land(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
         if (isWinTile(tile))
         {
         // line 28 "PlayControllerSM.ump"
-          land(tile);
-          setMode(Mode.Won);
+          try {
+			land(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.Won);
           wasEventProcessed = true;
           break;
         }
         if (isActionTile(tile))
         {
         // line 31 "PlayControllerSM.ump"
-          land(tile);
-          setMode(Mode.ActionCard);
+          try {
+			land(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.ActionCard);
           wasEventProcessed = true;
           break;
         }
@@ -214,15 +232,15 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isRollDieActionCard())
         {
         // line 36 "PlayControllerSM.ump"
-          possibleMoves = playRollDieActionCard();
-          setMode(Mode.Roll);
+          possibleMoves = playRollDieAgainActionCard();
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
@@ -238,15 +256,20 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isConnectTilesActionCard())
         {
         // line 39 "PlayControllerSM.ump"
-          playConnectTilesActionCard(tile1, tile2);
-          setMode(Mode.Roll);
+          try {
+			playConnectTilesActionCard(tile1, tile2);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
@@ -262,15 +285,15 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isRemoveConnectionActionCard())
         {
         // line 42 "PlayControllerSM.ump"
           playRemoveConnectionActionCard(c);
-          setMode(Mode.Roll);
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
@@ -286,23 +309,33 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isTeleportAndNormalTile(tile))
         {
         // line 45 "PlayControllerSM.ump"
-          playTeleportActionCard(tile);
-          setMode(Mode.Roll);
+          try {
+			playTeleportActionCard(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
         if (isTeleportAndWinTile(tile))
         {
         // line 48 "PlayControllerSM.ump"
-          playTeleportActionCard(tile);
-          setMode(Mode.Won);
+          try {
+			playTeleportActionCard(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.Won);
           wasEventProcessed = true;
           break;
         }
@@ -318,15 +351,20 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isTeleportAndActionTile(tile))
         {
         // line 51 "PlayControllerSM.ump"
-          playTeleportActionCard(tile);
-          setMode(Mode.ActionCard);
+          try {
+			playTeleportActionCard(tile);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          setPlayMode(PlayMode.ActionCard);
           wasEventProcessed = true;
           break;
         }
@@ -342,15 +380,15 @@ public class PlayController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    PlayMode aPlayMode = playMode;
+    switch (aPlayMode)
     {
       case ActionCard:
         if (isLoseTurnActionCard())
         {
         // line 54 "PlayControllerSM.ump"
           playLoseTurnActionCard();
-          setMode(Mode.Roll);
+          setPlayMode(PlayMode.Roll);
           wasEventProcessed = true;
           break;
         }
@@ -362,9 +400,9 @@ public class PlayController
     return wasEventProcessed;
   }
 
-  private void setMode(Mode aMode)
+  private void setPlayMode(PlayMode aPlayMode)
   {
-    mode = aMode;
+    playMode = aPlayMode;
   }
 
   public Tile getPossibleMove(int index)

@@ -1,7 +1,7 @@
 external Tile{}
 
 class PlayController {
-	mode {
+	playMode {
 		Ready {
 			startGame / {
 				Start();
