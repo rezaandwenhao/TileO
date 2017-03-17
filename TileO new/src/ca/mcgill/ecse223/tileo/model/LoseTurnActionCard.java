@@ -3,6 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 228 "../../../../../TileO (updated Feb10).ump"
@@ -20,6 +21,12 @@ public class LoseTurnActionCard extends ActionCard
   public LoseTurnActionCard(String aInstructions, Deck aDeck)
   {
     super(aInstructions, aDeck);
+  }
+  
+  public void play(){ //Added by Borui
+	  Game game = TileOApplication.getCurrentGame();
+	  Player currentPlayer = game.getCurrentPlayer();
+	  currentPlayer.loseTurns(1);
   }
 
   //------------------------

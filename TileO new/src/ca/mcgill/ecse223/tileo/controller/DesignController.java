@@ -458,34 +458,42 @@ public class DesignController {
 		if(TileOApplication.getCurrentGame() != null)TileOApplication.DesignPage();
 	}
 	
-	 public void turnIntoActionTile(int x , int y) throws InvalidInputException{
-	    	String error = " ";
-	    	Game game= TileOApplication.getCurrentGame();
-	    	int cooldown = 1;
-	    	try {
-				List<Tile> tilelist = game.getTiles();
-				boolean tileFound = false;
-				int tileFoundIndex = 0;
-				for(Tile t: tilelist){
-					if(t.getX() == x && t.getY() == y){
-						tileFound = true;
-						tileFoundIndex=tilelist.indexOf(t);
-					}
+	//updated in deliverable 4//
+	public void turnIntoActionTile(int x , int y) throws InvalidInputException{
+    	String error = " ";
+    	Game game= TileOApplication.getCurrentGame();
+    	try {
+			if (game.hasTile(x,y)){
+				Tile aTile = game.getTile(x, y);
+				if (aTile instanceof ActionTile){
+					ActionTile actionTile = (ActionTile) aTile;
+					int p = actionTile.getInactivityPeriod();
+					if (p<5)
+						actionTile.setInactivityPeriod(p+1);
+					if (p==5)
+						actionTile.setInactivityPeriod(1);
 				}
-				if(tileFound){
-					Tile t = tilelist.get(tileFoundIndex);
-					if(t instanceof ActionTile){
-						cooldown = ((ActionTile) t).getInactivityPeriod()%5+1;
-					}
-					t.delete();
-				}
-				new ActionTile(x,y,game, cooldown);
+				
+				else{
+					aTile.delete();
+					ActionTile newActionTile = new ActionTile(x,y,game,1);
+					game.addTile(newActionTile);
 					
+				}
 			}
-	    	catch (RuntimeException e) {
-				error = e.getMessage();
-				throw new InvalidInputException(error);
+			
+			else{
+				ActionTile newActionTile = new ActionTile(x,y,game,1);
+				game.addTile(newActionTile);
 			}
+			
+		}
+    	catch (RuntimeException e) {
+			error = e.getMessage();
+			throw new InvalidInputException(error);
+		}
+    
+ }
 	    	/*
 	    	try {
 	    	Game game= TileOApplication.getCurrentGame();
@@ -499,6 +507,5 @@ public class DesignController {
 				error = e.getMessage();
 				throw new InvalidInputException(error);
 				*/
-	 }
-	
 }
+	 

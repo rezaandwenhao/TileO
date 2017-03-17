@@ -572,6 +572,37 @@ public class Game
     placeholderTileO.removeGame(this);
   }
 
+  public boolean hasTile(int x, int y){
+      List<Tile> existTiles = this.getTiles();
+      for (Tile tile: existTiles){
+    	  if ((tile.getX() == x) && (tile.getY() == y)){
+    		  return true;
+    	  }
+      }
+      return false;
+  }
+  
+  public Tile getTile(int x, int y){
+      List<Tile> existTiles = this.getTiles();
+      for (Tile tile: existTiles){
+    	  if ((tile.getX() == x) && (tile.getY() == y))
+                return tile;
+      }
+      return null;
+  }
+  
+  public Player determineNextPlayer()
+  {
+	 Player currentPlayer = this.getCurrentPlayer();
+	 int currentPlayerNumber = currentPlayer.getNumber();
+	 int totalNumberPlayer = this.getPlayers().size();
+	 if (currentPlayerNumber < totalNumberPlayer){
+		 return this.getPlayers().get(currentPlayerNumber);
+	 }
+	 
+	 else
+		 return this.getPlayers().get(0);
+  }
 
   public String toString()
   {

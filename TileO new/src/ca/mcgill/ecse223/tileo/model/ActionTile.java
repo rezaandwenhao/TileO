@@ -124,7 +124,7 @@ public class ActionTile extends Tile
     return wasEventProcessed;
   }
 
-  private void setActionTileStatus(ActionTileStatus aActionTileStatus)
+  public void setActionTileStatus(ActionTileStatus aActionTileStatus)
   {
     actionTileStatus = aActionTileStatus;
   }
@@ -146,6 +146,10 @@ public class ActionTile extends Tile
       currentGame.setMode(currentCardMode);
   }
 
+   public void setInactivityPeriod(int anInactivityPeriod)
+   {
+      this.inactivityPeriod = anInactivityPeriod;
+   }
 
   public String toString()
   {
