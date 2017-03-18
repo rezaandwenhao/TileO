@@ -1,0 +1,52 @@
+external interface Serializable{}
+
+class GameEngine{
+  depend java.io.Serializable;
+  isA Serializable;
+}
+
+class Session{
+  depend java.io.Serializable;
+  isA Serializable;
+}
+
+class Player{
+  depend java.io.Serializable;
+  isA Serializable;
+}
+
+class Board{
+  depend java.io.Serializable;
+  isA Serializable;
+}
+
+class ActionDeck{
+depend java.io.Serializable;
+  isA Serializable;
+}
+
+class ActionCard{
+depend java.io.Serializable;
+  isA Serializable;
+}
+
+class Location{
+depend java.io.Serializable;
+  isA Serializable;
+}
+
+class Tile{
+depend java.io.Serializable;
+  isA Serializable;
+
+}
+
+class ActionTile{
+depend java.io.Serializable;
+  isA Serializable;
+}
+
+class GreyTile{
+ depend java.io.Serializable;
+  isA Serializable;
+}
