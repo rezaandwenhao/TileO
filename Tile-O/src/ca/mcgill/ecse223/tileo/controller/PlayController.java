@@ -447,24 +447,32 @@ private List<Tile> possibleMoves;
 				Player currentPlayer = currentGame.getCurrentPlayer();
 				Tile srcTile = currentPlayer.getCurrentTile();
 				Tile destTile = selectedPlayer.getCurrentTile();
-				
-				boolean hasPlayer = false;
-			
-				for(Tile tempTile: currentGame.getTiles()){
-					for(Player p: currentGame.getPlayers()){
-						if(p.getCurrentTile().equals(tempTile))
-							hasPlayer = true;
-					}
-					if(!hasPlayer){
-						selectedPlayer.land(tempTile);
-						break;
-					}
+				if(currentPlayer.equals(selectedPlayer)){
+					throw new InvalidInputException("Mush choose a different player!");
 				}
 				
+			    int count=0;
+				for(Tile tempTile: currentGame.getTiles()){
+					boolean hasPlayer = false;
+					for(Player p: currentGame.getPlayers()){
+						if(p.getCurrentTile().equals(tempTile)){
+							hasPlayer = true;
+							break;
+						}
+					}
+					if(!hasPlayer){
+				     	count++;
+					}
+				}
+				selectedPlayer.swappedPlayerLand(currentGame.getTiles().get(count));
 				
-				currentPlayer.land(destTile);
-				selectedPlayer.land(srcTile);
+				currentPlayer.swappedPlayerLand(destTile);
+				selectedPlayer.swappedPlayerLand(srcTile);
+			
 				currentGame.selectnextCard();	
+				currentGame.setMode(Mode.GAME);
+	    	    currentGame.determineNextPlayer();
+
 			}
 		  
 		  private void setPlayMode(PlayMode aPlayMode)		

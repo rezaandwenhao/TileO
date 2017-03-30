@@ -55,7 +55,7 @@ public class GameModePage extends TileOGamePage {
 	
 	//my swapPosition field
 	private JLabel swapPositionActionCardDescription;
-	private boolean playerclicked;
+	//private boolean playerclicked;
 	
 	// data elements
 	private TileOGamePage this_page = this;

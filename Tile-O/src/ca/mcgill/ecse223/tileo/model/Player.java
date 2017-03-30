@@ -5,6 +5,9 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.ui.DesignModeResources;
+
 // line 1 "../../../../../PlayerSM.ump"
 // line 25 "../../../../../TileO (updated Feb10).ump"
 public class Player implements Serializable
@@ -330,8 +333,22 @@ private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Playe
     finalTiles.clear();
   }
 
-  public void land(Tile tile){
-	  tile.land();
+  public void swappedPlayerLand(Tile tile){
+	  
+	  Game currentGame=this.getGame();
+	  this.setCurrentTile(tile);
+      tile.setHasBeenVisited(true);
+//      
+//      if(tile instanceof NormalTile){
+//    	    currentGame.setMode(Mode.GAME);
+//    	    currentGame.determineNextPlayer();
+//		}
+//		else if(tile instanceof WinTile){
+//			currentGame.setMode(Mode.GAME_WON);
+//		}
+//		else if(tile instanceof ActionTile){
+//			 currentGame.setMode(Mode.GAME_DRAWCARD);	 
+//		}
   }
   
   public String toString()
