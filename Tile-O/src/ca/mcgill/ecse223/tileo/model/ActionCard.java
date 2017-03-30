@@ -1,17 +1,26 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 62 "../../../../../TileO (updated Feb10).ump"
-public abstract class ActionCard
+import java.io.Serializable;
+
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
+// line 146 "../../../../../TileO (updated Feb10).ump"
+public abstract class ActionCard implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //ActionCard Attributes
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3927345256179087829L;
+
+//ActionCard Attributes
   private String instructions;
 
   //ActionCard Associations
@@ -83,19 +92,15 @@ public abstract class ActionCard
     placeholderDeck.removeCard(this);
   }
 
+   public abstract Mode getActionCardGameMode();
+   public abstract int type();
 
   public String toString()
   {
-    String outputString = "";
+	  String outputString = "";
     return super.toString() + "["+
             "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
      + outputString;
   }
-  
-  //implemented for each subclass of ActionCard
-  public void play(Object o){//ADDED BY BIJAN
-	  
-  }
-  
 }

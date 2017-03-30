@@ -1,18 +1,23 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 30 "../../../../../TileO (updated Feb10).ump"
-public abstract class Tile
+// line 61 "../../../../../TileO (updated Feb10).ump"
+public abstract class Tile implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Tile Attributes
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2552587070382311468L;
+//Tile Attributes
   private int x;
   private int y;
   private boolean hasBeenVisited;
@@ -20,7 +25,7 @@ public abstract class Tile
   //Tile Associations
   private List<Connection> connections;
   private Game game;
-  private List<Tile> neighbors = new ArrayList<Tile>();// ADDED BY BIJAN, USED IN GETNEIGHBORS() METHOD
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -42,6 +47,8 @@ public abstract class Tile
   // INTERFACE
   //------------------------
 
+  public abstract void land();
+  
   public boolean setX(int aX)
   {
     boolean wasSet = false;
@@ -134,6 +141,9 @@ public abstract class Tile
   public boolean addConnection(Connection aConnection)
   {
     boolean wasAdded = false;
+    if (connections.contains(aConnection)) { return false; }
+    if (connections.contains(aConnection)) { return false; }
+    if (connections.contains(aConnection)) { return false; }
     if (connections.contains(aConnection)) { return false; }
     if (numberOfConnections() >= maximumNumberOfConnections())
     {
@@ -253,49 +263,43 @@ public abstract class Tile
   }
 
 
+  /**
+   * ADDED BY BIJAN, USED IN GETNEIGHBORS() METHOD
+   * gets the neighboring tiles
+   */
+  // line 71 "../../../../../TileO (updated Feb10).ump"
+   public List<Tile> getNeighbors(){
+    // IMPLEMENTED BY BIJAN
+		
+		List<Tile> neighbors = new ArrayList<Tile>();
+		
+		for(Connection connection : this.getConnections()){
+			if(connection.getTile(0)!=this)
+				neighbors.add(connection.getTile(0));
+			else
+				neighbors.add(connection.getTile(1));
+		}
+		
+		return neighbors;
+  }
+
+
   public String toString()
   {
-    String outputString = "";
+	  String outputString = "";
     return super.toString() + "["+
             "x" + ":" + getX()+ "," +
             "y" + ":" + getY()+ "," +
             "hasBeenVisited" + ":" + getHasBeenVisited()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
   
-	//gets the tiles a *number* of tiles away from this Tile
-	public List<Tile> getNeighbors(int number){ // IMPLEMENTED BY BIJAN
+  // line 68 ../../../../../TileO (updated Feb10).ump
+  private List<Tile> neighbors = new ArrayList<Tile>() ;
 
-		//BASE CASE, IF WE HAVE REACHED THE "END OF THE ROLL", ADD THOSE ADJACENT TILES TO NEIGHBORS
-		if(number==1){
-			for(Connection connection : connections){
-				List<Tile> connectedTiles = connection.getTiles();
-
-				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
-				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
-					neighbors.add(connectedTiles.get(0));
-				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
-					neighbors.add(connectedTiles.get(1));
-				}
-			}
-		}
-
-		//RECURSIVE SECTION
-		else{
-			//look through all of Tile's connections. For each connection, identify the "other" tile, and add that tile to neighbors.
-			for(Connection connection : connections){
-				List<Tile> connectedTiles = connection.getTiles();
-
-				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
-				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
-					connectedTiles.get(0).getNeighbors(number-1);
-				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
-					connectedTiles.get(1).getNeighbors(number-1);
-				}
-			}
-		}
-
-		return neighbors;
-	}
+  
 }

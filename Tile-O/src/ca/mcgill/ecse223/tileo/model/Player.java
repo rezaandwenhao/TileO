@@ -1,18 +1,25 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 22 "../../../../../TileO (updated Feb10).ump"
-public class Player
+// line 1 "../../../../../PlayerSM.ump"
+// line 25 "../../../../../TileO (updated Feb10).ump"
+public class Player implements Serializable
 {
 
   //------------------------
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8865001940681263583L;
+
+private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -23,6 +30,8 @@ public class Player
   private int turnsUntilActive;
 
   //Player State Machines
+  public enum PlayerStatus { Active, Inactive }
+  private PlayerStatus playerStatus;
   public enum Color { RED, BLUE, GREEN, YELLOW }
   private Color color;
 
@@ -30,6 +39,9 @@ public class Player
   private Tile startingTile;
   private Tile currentTile;
   private Game game;
+  
+	// ADDITIONAL ATTRIBUTES, ADDED BY BIJAN
+	private List<Tile> finalTiles = new ArrayList<Tile>();
 
   //------------------------
   // CONSTRUCTOR
@@ -47,6 +59,7 @@ public class Player
     {
       throw new RuntimeException("Unable to create player due to game");
     }
+    setPlayerStatus(PlayerStatus.Active);
     setColor(Color.RED);
   }
 
@@ -98,15 +111,97 @@ public class Player
     return turnsUntilActive;
   }
 
+  public String getPlayerStatusFullName()
+  {
+    String answer = playerStatus.toString();
+    return answer;
+  }
+
   public String getColorFullName()
   {
     String answer = color.toString();
     return answer;
   }
 
+  public PlayerStatus getPlayerStatus()
+  {
+    return playerStatus;
+  }
+
   public Color getColor()
   {
     return color;
+  }
+
+  public boolean loseTurns(int n)
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerStatus aPlayerStatus = playerStatus;
+    switch (aPlayerStatus)
+    {
+      case Active:
+        if (n>0)
+        {
+        // line 4 "../../../../../PlayerSM.ump"
+          setTurnsUntilActive(getTurnsUntilActive() + n);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      case Inactive:
+        if (n>0)
+        {
+        // line 15 "../../../../../PlayerSM.ump"
+          setTurnsUntilActive(getTurnsUntilActive() + n);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean takeTurn()
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerStatus aPlayerStatus = playerStatus;
+    switch (aPlayerStatus)
+    {
+      case Inactive:
+        if (getTurnsUntilActive()>1)
+        {
+        // line 9 "../../../../../PlayerSM.ump"
+          setTurnsUntilActive(getTurnsUntilActive() - 1);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        if (getTurnsUntilActive()<=1)
+        {
+        // line 12 "../../../../../PlayerSM.ump"
+          setTurnsUntilActive(0);
+          setPlayerStatus(PlayerStatus.Active);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void setPlayerStatus(PlayerStatus aPlayerStatus)
+  {
+    playerStatus = aPlayerStatus;
   }
 
   public boolean setColor(Color aColor)
@@ -200,9 +295,48 @@ public class Player
   }
 
 
+  /**
+   * Bijan Sadeghi
+   * return list of all possible Tiles a player can move to with a given die
+   * roll
+   */
+  // line 36 "../../../../../TileO (updated Feb10).ump"
+   public List<Tile> getPossibleMoves(Tile currentTile, Tile previousTile, int rollNumber){
+    // BASE CASE (ONE TILE MOVE)
+		if (rollNumber == 1) {
+			for (Tile neighbor : currentTile.getNeighbors()) {
+				if (neighbor != previousTile && !finalTiles.contains(neighbor))
+					finalTiles.add(neighbor);
+			}
+		}
+
+		// RECURSIVE STEP
+		else {
+			for (Tile neighbor : currentTile.getNeighbors()) {
+				if (neighbor != previousTile)
+					getPossibleMoves(neighbor, currentTile, rollNumber - 1);
+			}
+		}
+
+		return finalTiles;
+  }
+
+
+  /**
+   * Bijan Sadeghi
+   */
+  // line 57 "../../../../../TileO (updated Feb10).ump"
+   public void resetFinalTiles(){
+    finalTiles.clear();
+  }
+
+  public void land(Tile tile){
+	  tile.land();
+  }
+  
   public String toString()
   {
-    String outputString = "";
+	  String outputString = "";
     return super.toString() + "["+
             "number" + ":" + getNumber()+ "," +
             "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
@@ -211,12 +345,4 @@ public class Player
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
-  
-//return list of all possible Tiles a player can move to with a given die roll
-	public List<Tile> getPossibleMoves(int rollNumber) { // IMPLEMENTED BY BIJAN
-		List<Tile> finalTiles = currentTile.getNeighbors(rollNumber);
-		return finalTiles;
-	}
-  
-  
 }

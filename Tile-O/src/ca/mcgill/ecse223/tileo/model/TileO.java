@@ -1,18 +1,23 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 3 "../../../../../TileO (updated Feb10).ump"
-public class TileO
+// line 6 "../../../../../TileO (updated Feb10).ump"
+public class TileO implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //TileO Associations
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1402467009912279401L;
+//TileO Associations
   private List<Game> games;
   private Game currentGame;
 
@@ -159,6 +164,7 @@ public class TileO
       games.remove(aGame);
     }
     
+      
     currentGame = null;
   }
 

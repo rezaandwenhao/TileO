@@ -1,18 +1,23 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 57 "../../../../../TileO (updated Feb10).ump"
-public class Deck
+// line 137 "../../../../../TileO (updated Feb10).ump"
+public class Deck implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Deck Associations
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1457355157278225256L;
+//Deck Associations
   private List<ActionCard> cards;
   private ActionCard currentCard;
   private Game game;
@@ -193,6 +198,7 @@ public class Deck
       cards.remove(aCard);
     }
     
+      
     currentCard = null;
     Game existingGame = game;
     game = null;
@@ -202,11 +208,10 @@ public class Deck
     }
   }
 
-  
-  public void shuffle(){// IMPLEMENTED BY BIJAN
+  // line 140 "../../../../../TileO (updated Feb10).ump"
+   public void shuffle(){
+    // IMPLEMENTED BY BIJAN
 	  Collections.shuffle(cards);
   }
-  
-  
-  
+
 }

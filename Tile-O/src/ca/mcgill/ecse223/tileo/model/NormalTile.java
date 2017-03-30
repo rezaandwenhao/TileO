@@ -1,11 +1,14 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 46 "../../../../../TileO (updated Feb10).ump"
-public class NormalTile extends Tile
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
+// line 106 "../../../../../TileO (updated Feb10).ump"
+public class NormalTile extends Tile implements Serializable
 {
 
   //------------------------
@@ -16,7 +19,12 @@ public class NormalTile extends Tile
   // CONSTRUCTOR
   //------------------------
 
-  public NormalTile(int aX, int aY, Game aGame)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4242199115754805670L;
+
+public NormalTile(int aX, int aY, Game aGame)
   {
     super(aX, aY, aGame);
   }
@@ -28,6 +36,16 @@ public class NormalTile extends Tile
   public void delete()
   {
     super.delete();
+  }
+
+  // line 109 "../../../../../TileO (updated Feb10).ump"
+   public void land(){
+    Game currentGame = this.getGame();
+	Player currentPlayer = currentGame.getCurrentPlayer();
+	currentPlayer.setCurrentTile(this);
+    this.setHasBeenVisited(true);
+    currentGame.setMode(Mode.GAME);
+    currentGame.determineNextPlayer();
   }
 
 }
