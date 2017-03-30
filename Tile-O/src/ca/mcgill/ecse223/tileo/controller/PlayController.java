@@ -963,7 +963,6 @@ private List<Tile> possibleMoves;
          
 		Game game = TileOApplication.getCurrentGame();
 		Player playerFound = game.getCurrentPlayer(); 
-		//how to set mode???//
 		try {
 			int index1 =0;
 			boolean foundTile = false;
