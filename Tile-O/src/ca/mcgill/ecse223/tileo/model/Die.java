@@ -51,6 +51,7 @@ public class Die
       existingGame.delete();
     }
   }
+<<<<<<< HEAD
 
 =======
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -115,4 +116,11 @@ public class Die
   }
 
 >>>>>>> refs/remotes/origin/Bijan
+=======
+  public int roll(){ // IMPLEMENTED BY BIJAN
+	  Random rand = new Random();
+	  int rollNumber = rand.nextInt(6)+1;
+	  return rollNumber;
+  }
+>>>>>>> refs/remotes/origin/master
 }

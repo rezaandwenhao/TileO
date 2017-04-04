@@ -104,7 +104,7 @@ public class Deck implements Serializable
     return 32;
   }
 
-  public ActionCard addCard(String aInstructions)
+  /*public ActionCard addCard(String aInstructions)
   {
     if (numberOfCards() >= maximumNumberOfCards())
     {
@@ -114,7 +114,7 @@ public class Deck implements Serializable
     {
       return new ActionCard(aInstructions, this);
     }
-  }
+  }*/
 
   public boolean addCard(ActionCard aCard)
   {
@@ -328,4 +328,32 @@ public class Deck
 	  Collections.shuffle(cards);
   }
 
+<<<<<<< HEAD
+=======
+  public void delete()
+  {
+    while (cards.size() > 0)
+    {
+      ActionCard aCard = cards.get(cards.size() - 1);
+      aCard.delete();
+      cards.remove(aCard);
+    }
+    
+    currentCard = null;
+    Game existingGame = game;
+    game = null;
+    if (existingGame != null)
+    {
+      existingGame.delete();
+    }
+  }
+
+  
+  public void shuffle(){// IMPLEMENTED BY BIJAN
+	  Collections.shuffle(cards);
+  }
+  
+  
+  
+>>>>>>> refs/remotes/origin/master
 }

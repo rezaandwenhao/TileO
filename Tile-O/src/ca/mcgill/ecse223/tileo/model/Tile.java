@@ -23,7 +23,7 @@ public abstract class Tile implements Serializable
   //Tile Associations
   private List<Connection> connections;
   private Game game;
-
+  private List<Tile> neighbors = new ArrayList<Tile>();// ADDED BY BIJAN, USED IN GETNEIGHBORS() METHOD
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -266,6 +266,7 @@ public abstract class Tile implements Serializable
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
+<<<<<<< HEAD
 =======
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
@@ -572,4 +573,41 @@ public abstract class Tile
 		+ outputString;
 	}
 >>>>>>> refs/remotes/origin/Bijan
+=======
+  
+	//gets the tiles a *number* of tiles away from this Tile
+	public List<Tile> getNeighbors(int number){ // IMPLEMENTED BY BIJAN
+
+		//BASE CASE, IF WE HAVE REACHED THE "END OF THE ROLL", ADD THOSE ADJACENT TILES TO NEIGHBORS
+		if(number==1){
+			for(Connection connection : connections){
+				List<Tile> connectedTiles = connection.getTiles();
+
+				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
+				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
+					neighbors.add(connectedTiles.get(0));
+				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
+					neighbors.add(connectedTiles.get(1));
+				}
+			}
+		}
+
+		//RECURSIVE SECTION
+		else{
+			//look through all of Tile's connections. For each connection, identify the "other" tile, and add that tile to neighbors.
+			for(Connection connection : connections){
+				List<Tile> connectedTiles = connection.getTiles();
+
+				//RECURSIVE CALL WITH ADJACENT TILES, NUMBER - 1
+				if(connectedTiles.get(0) != this)//If the first Tile in connectedTiles is the other tile, add it to neighbors
+					connectedTiles.get(0).getNeighbors(number-1);
+				else{//Otherwise, the second Tile must represent the other tile, so add it to neighbors
+					connectedTiles.get(1).getNeighbors(number-1);
+				}
+			}
+		}
+
+		return neighbors;
+	}
+>>>>>>> refs/remotes/origin/master
 }

@@ -214,6 +214,7 @@ public class Player implements Serializable
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
+<<<<<<< HEAD
 =======
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
@@ -436,4 +437,14 @@ public class Player
 	}
 
 >>>>>>> refs/remotes/origin/Bijan
+=======
+  
+//return list of all possible Tiles a player can move to with a given die roll
+	public List<Tile> getPossibleMoves(int rollNumber) { // IMPLEMENTED BY BIJAN
+		List<Tile> finalTiles = currentTile.getNeighbors(rollNumber);
+		return finalTiles;
+	}
+  
+  
+>>>>>>> refs/remotes/origin/master
 }

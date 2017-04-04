@@ -5,8 +5,15 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+<<<<<<< HEAD
 // line 33 "../../../../../DesignPersistence.ump"
 // line 48 "../../../../../TileO (updated Feb10).ump"
+=======
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+
+// line 46 "../../../../../TileO (updated Feb10).ump"
+>>>>>>> refs/remotes/origin/master
 public class NormalTile extends Tile
 {
 
@@ -26,7 +33,22 @@ public class NormalTile extends Tile
   //------------------------
   // INTERFACE
   //------------------------
-
+  public void land(){
+	  Game currentGame = this.getGame();
+	  Player currentPlayer = currentGame.getCurrentPlayer();
+      currentPlayer.setCurrentTile(this);
+      
+      if (currentGame.indexOfPlayer(currentPlayer) != currentGame.numberOfPlayers()-1) {
+  		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+  		}
+  		else {
+  			currentGame.setCurrentPlayer(currentGame.getPlayer(0));
+  			}
+      
+      this.setHasBeenVisited(true);
+      currentGame.setMode(Mode.GAME);
+  }
+  
   public void delete()
   {
     super.delete();

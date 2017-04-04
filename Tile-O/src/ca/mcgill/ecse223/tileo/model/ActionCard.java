@@ -21,6 +21,7 @@ public abstract class ActionCard
   //------------------------
   // CONSTRUCTOR
   //------------------------
+<<<<<<< HEAD
 =======
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
@@ -123,3 +124,86 @@ public abstract class ActionCard
 	  
   }
 }
+=======
+
+  public ActionCard(String aInstructions, Deck aDeck)
+  {
+    instructions = aInstructions;
+    boolean didAddDeck = setDeck(aDeck);
+    if (!didAddDeck)
+    {
+      throw new RuntimeException("Unable to create card due to deck");
+    }
+  }
+
+  //------------------------
+  // INTERFACE
+  //------------------------
+  public abstract Mode getActionCardGameMode();
+
+
+  public String getInstructions()
+  {
+    return instructions;
+  }
+
+  public Deck getDeck()
+  {
+    return deck;
+  }
+
+  public boolean setDeck(Deck aDeck)
+  {
+    boolean wasSet = false;
+    //Must provide deck to card
+    if (aDeck == null)
+    {
+      return wasSet;
+    }
+
+    //deck already at maximum (32)
+    if (aDeck.numberOfCards() >= Deck.maximumNumberOfCards())
+    {
+      return wasSet;
+    }
+    
+    Deck existingDeck = deck;
+    deck = aDeck;
+    if (existingDeck != null && !existingDeck.equals(aDeck))
+    {
+      boolean didRemove = existingDeck.removeCard(this);
+      if (!didRemove)
+      {
+        deck = existingDeck;
+        return wasSet;
+      }
+    }
+    deck.addCard(this);
+    wasSet = true;
+    return wasSet;
+  }
+
+  public void delete()
+  {
+    Deck placeholderDeck = deck;
+    this.deck = null;
+    placeholderDeck.removeCard(this);
+  }
+
+
+  public String toString()
+  {
+    String outputString = "";
+    return super.toString() + "["+
+            "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
+     + outputString;
+  }
+  
+  //implemented for each subclass of ActionCard
+  public void play(Object o){//ADDED BY BIJAN
+	  
+  }
+  
+}
+>>>>>>> refs/remotes/origin/master

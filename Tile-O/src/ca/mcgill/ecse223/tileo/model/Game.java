@@ -359,10 +359,10 @@ public static final int SpareConnectionPieces = 32;
     return 0;
   }
 
-  public Tile addTile(int aX, int aY)
+  /*public Tile addTile(int aX, int aY)
   {
     return new Tile(aX, aY, this);
-  }
+  }*/
 
   public boolean addTile(Tile aTile)
   {

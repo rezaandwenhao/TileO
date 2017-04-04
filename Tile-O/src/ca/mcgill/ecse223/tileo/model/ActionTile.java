@@ -5,8 +5,13 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+<<<<<<< HEAD
 // line 28 "../../../../../DesignPersistence.ump"
 // line 41 "../../../../../TileO (updated Feb10).ump"
+=======
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+// line 39 "../../../../../TileO (updated Feb10).ump"
+>>>>>>> refs/remotes/origin/master
 public class ActionTile extends Tile
 {
 
@@ -49,6 +54,17 @@ public class ActionTile extends Tile
   public int getTurnsUntilActive()
   {
     return turnsUntilActive;
+  }
+  
+  public void land(){
+	  Game currentGame = this.getGame();
+	  Player currentPlayer = currentGame.getCurrentPlayer();
+      currentPlayer.setCurrentTile(this);
+      this.setHasBeenVisited(true);
+      Deck deck = currentGame.getDeck();
+      ActionCard currentCard = deck.getCurrentCard();
+      Mode mode = currentCard.getActionCardGameMode();
+      currentGame.setMode(mode);
   }
 
   public void delete()
