@@ -1,20 +1,26 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.24.0-dab6b48 modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-// line 88 "../../../../../TileO (updated Feb10).ump"
-public class Die
+// line 241 "../../../../../TileO (updated Feb10).ump"
+public class Die implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Die Associations
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2819346463911992740L;
+//Die Associations
   private Game game;
+  private int latest_roll = 0;
 
   //------------------------
   // CONSTRUCTOR
@@ -42,12 +48,6 @@ public class Die
   {
     return game;
   }
-  
-  public int roll(){ // IMPLEMENTED BY BIJAN
-	  Random rand = new Random();
-	  int rollNumber = rand.nextInt(6)+1;
-	  return rollNumber;
-  }
 
   public void delete()
   {
@@ -59,4 +59,15 @@ public class Die
     }
   }
 
+  // line 242 "../../../../../TileO (updated Feb10).ump"
+   public int roll(){
+    // IMPLEMENTED BY BIJAN
+	  Random rand = new Random();
+	  latest_roll = rand.nextInt(6)+1;
+	  return latest_roll;
+  }
+  
+  public int getLatest_roll(){
+	  return latest_roll;
+  }
 }

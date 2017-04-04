@@ -1,18 +1,25 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 8 "../../../../../TileO (updated Feb10).ump"
-public class Game
+import ca.mcgill.ecse223.tileo.model.Player.PlayerStatus;
+
+// line 11 "../../../../../TileO (updated Feb10).ump"
+public class Game implements Serializable
 {
 
   //------------------------
   // STATIC VARIABLES
   //------------------------
 
-  public static final int SpareConnectionPieces = 32;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2627296689646846175L;
+public static final int SpareConnectionPieces = 32;
   public static final int NumberOfActionCards = 32;
 
   //------------------------
@@ -23,7 +30,7 @@ public class Game
   private int currentConnectionPieces;
 
   //Game State Machines
-  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
+  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD, GAME_DRAWCARD, GAME_TAKETURN, GAME_WINHINTACTIONCARD, GAME_TELEALLPLAYERCARD }
   private Mode mode;
 
   //Game Associations
@@ -353,10 +360,10 @@ public class Game
     return 0;
   }
 
-  public Tile addTile(int aX, int aY)
+  /*public Tile addTile(int aX, int aY)
   {
     return new Tile(aX, aY, this);
-  }
+  }*/
 
   public boolean addTile(Tile aTile)
   {
@@ -536,6 +543,7 @@ public class Game
       players.remove(aPlayer);
     }
     
+      
     while (tiles.size() > 0)
     {
       Tile aTile = tiles.get(tiles.size() - 1);
@@ -543,6 +551,7 @@ public class Game
       tiles.remove(aTile);
     }
     
+      
     while (connections.size() > 0)
     {
       Connection aConnection = connections.get(connections.size() - 1);
@@ -550,6 +559,7 @@ public class Game
       connections.remove(aConnection);
     }
     
+      
     Deck existingDeck = deck;
     deck = null;
     if (existingDeck != null)
@@ -569,10 +579,52 @@ public class Game
     placeholderTileO.removeGame(this);
   }
 
+  public boolean hasTile(int x, int y){
+      List<Tile> existTiles = this.getTiles();
+      for (Tile tile: existTiles){
+    	  if ((tile.getX() == x) && (tile.getY() == y)){
+    		  return true;
+    	  }
+      }
+      return false;
+  }
+  
+  public Tile getTile(int x, int y){
+      List<Tile> existTiles = this.getTiles();
+      for (Tile tile: existTiles){
+    	  if ((tile.getX() == x) && (tile.getY() == y))
+                return tile;
+      }
+      return null;
+  }
+  
+  public void determineNextPlayer()
+  {
+	 Player currentPlayer = this.getCurrentPlayer();
+	 currentPlayer.loseTurns(numberOfPlayers());
+	 
+	 for(Tile t:getTiles()){
+		 if(t instanceof ActionTile){
+			 ((ActionTile)t).takeTurn();
+		 }
+	 }
+	 
+	 while(true){
+		 for(Player p: getPlayers()){
+			 p.takeTurn();
+		 }
+		 for(Player p: getPlayers()){
+			 if(p.getPlayerStatus() == PlayerStatus.Active){
+				 setCurrentPlayer(p);
+				 return;
+			 }
+		 }
+	 }
+  }
 
   public String toString()
   {
-    String outputString = "";
+	  String outputString = "";
     return super.toString() + "["+
             "currentConnectionPieces" + ":" + getCurrentConnectionPieces()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null") + System.getProperties().getProperty("line.separator") +
@@ -582,4 +634,14 @@ public class Game
             "  " + "tileO = "+(getTileO()!=null?Integer.toHexString(System.identityHashCode(getTileO())):"null")
      + outputString;
   }
+
+public void selectnextCard() {
+	Deck deck = getDeck();
+	ActionCard currentCard = deck.getCurrentCard();
+	int index = deck.indexOfCard(currentCard);
+	if(index == (deck.numberOfCards()-1))
+		deck.setCurrentCard(deck.getCard(0));
+	else deck.setCurrentCard(deck.getCard(index+1));
+	
+}
 }

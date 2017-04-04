@@ -1,10 +1,14 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.22.0.5146 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 80 "../../../../../TileO (updated Feb10).ump"
-public class TeleportActionCard extends ActionCard
+import java.io.Serializable;
+
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
+// line 210 "../../../../../TileO (updated Feb10).ump"
+public class TeleportActionCard extends ActionCard implements Serializable
 {
 
   //------------------------
@@ -15,7 +19,12 @@ public class TeleportActionCard extends ActionCard
   // CONSTRUCTOR
   //------------------------
 
-  public TeleportActionCard(String aInstructions, Deck aDeck)
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3353550388674656041L;
+
+public TeleportActionCard(String aInstructions, Deck aDeck)
   {
     super(aInstructions, aDeck);
   }
@@ -29,4 +38,27 @@ public class TeleportActionCard extends ActionCard
     super.delete();
   }
 
+  // line 213 "../../../../../TileO (updated Feb10).ump"
+   public void play(Tile tile){
+    tile.land();
+  }
+
+  // line 224 "../../../../../TileO (updated Feb10).ump"
+   public Mode getActionCardGameMode(){
+    return Mode.GAME_TELEPORTACTIONCARD;
+  }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 216 ../../../../../TileO (updated Feb10).ump
+  @Override
+public int type () 
+  {
+    // TODO Auto-generated method stub
+	return 3;
+  }
+
+  
 }
