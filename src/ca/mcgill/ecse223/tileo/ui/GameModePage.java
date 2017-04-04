@@ -581,6 +581,13 @@ public class GameModePage extends TileOGamePage {
 	        	g.drawString("Out of Connection Pieces. Click ", 20, 25);
 	        	g.drawString("anywhere on the board to continue", 20, 40);
 	        }
+		    
+		 if(resource.gamemode == Mode.GAME_WINHINTACTIONCARD ){
+	        	g.setColor(Color.RED);
+	        	g.setFont(new Font("Arial",Font.BOLD + Font.ITALIC,12));
+	        	g.drawString("Click a tile to get hint", 20, 25);
+	        	g.drawString(" of itself and its 4 neighbors", 20, 40);
+	        }
 	        
 	        g.setColor(Color.BLACK);
 	        
