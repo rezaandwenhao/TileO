@@ -426,7 +426,7 @@ private List<Tile> possibleMoves;
 		        if (isSwapPositionActionCard())		
 		        {		
 		      	 try {		
-						playSwapPositionActionCard(player);		
+					playSwapPositionActionCard(player);		
 					} catch (InvalidInputException e) {		
 						// TODO Auto-generated catch block		
 						e.printStackTrace();		
@@ -450,24 +450,10 @@ private List<Tile> possibleMoves;
 				if(currentPlayer.equals(selectedPlayer)){
 					throw new InvalidInputException("Mush choose a different player!");
 				}
-				
-			    int count=0;
-				for(Tile tempTile: currentGame.getTiles()){
-					boolean hasPlayer = false;
-					for(Player p: currentGame.getPlayers()){
-						if(p.getCurrentTile().equals(tempTile)){
-							hasPlayer = true;
-							break;
-						}
-					}
-					if(!hasPlayer){
-				     	count++;
-					}
-				}
-				selectedPlayer.swappedPlayerLand(currentGame.getTiles().get(count));
-				
-				currentPlayer.swappedPlayerLand(destTile);
-				selectedPlayer.swappedPlayerLand(srcTile);
+
+				currentPlayer.removeTile();
+	    		currentPlayer.swappedPlayerLand(destTile);
+	 			selectedPlayer.swappedPlayerLand(srcTile);
 			
 				currentGame.selectnextCard();	
 				currentGame.setMode(Mode.GAME);

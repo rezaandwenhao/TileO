@@ -338,17 +338,11 @@ private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Playe
 	  Game currentGame=this.getGame();
 	  this.setCurrentTile(tile);
       tile.setHasBeenVisited(true);
-//      
-//      if(tile instanceof NormalTile){
-//    	    currentGame.setMode(Mode.GAME);
-//    	    currentGame.determineNextPlayer();
-//		}
-//		else if(tile instanceof WinTile){
-//			currentGame.setMode(Mode.GAME_WON);
-//		}
-//		else if(tile instanceof ActionTile){
-//			 currentGame.setMode(Mode.GAME_DRAWCARD);	 
-//		}
+      
+  }
+  
+  public void removeTile(){
+	  this.currentTile = null;
   }
   
   public String toString()
